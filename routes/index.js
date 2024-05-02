@@ -1,5 +1,5 @@
 var express = require('express');
-const { Signup, login } = require('../controllers/userController');
+const { Signup, login, DeleteUser } = require('../controllers/userController');
 var router = express.Router();
 
 /* GET home page. */
@@ -14,5 +14,8 @@ router.post("/SignUp",Signup);
 
 // POST /login
 router.post("/login",login)
+
+// Post /Delete
+router.post("/DeleteUser",DeleteUser)
 
 module.exports = router;

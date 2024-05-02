@@ -23,7 +23,7 @@ exports.Signup= async(req,res)=>{
           res.status(200).json({
             status: "Success",
             code: 200,
-            message: "User created",
+            message: "User created Successfully",
             data: user,
           });
     } catch (error) {
@@ -42,11 +42,17 @@ exports.login= async(req,res)=>{
             $or:[{email:reqJson.email},{PhoneNumber:reqJson.PhoneNumber}],
             password:reqJson.password,
         }).exec();
+        if(!loginUser){
+            return res.status(200).json({
+                status:"Failed",
+                code:400,
+                message:"No User Exit Please fill valid Data"
+            })
+        }
         loginUser.isLoggedIn = true;
-        // console.log(loginUser);
         loginUser.save();
         res.status(200).json({
-            status: 200,
+            status: "Success",
             code: 200,
             message: "User Logged in !",
             data: loginUser,
@@ -55,5 +61,41 @@ exports.login= async(req,res)=>{
         res
       .status(200)
       .json({ status: "Failed", code: 500, message: error.message });
+    }
+}
+
+exports.DeleteUser = async (req, res) => {
+    try {
+        const { userId } = req.body;
+
+        if (!userId) {
+            return res.status(400).json({
+                status: "Failed",
+                code: 400,
+                message: 'User ID is required'
+            });
+        }
+
+        const deletedUser = await userSchema.findOneAndDelete({ _id: userId });
+
+        if (!deletedUser) {
+            return res.status(200).json({
+                status: "Failed",
+                code: 404,
+                message: 'User not found'
+            });
+        }
+
+        res.status(200).json({
+            status: "Success",
+            code: 200,
+            message: "User Deleted Successfully"
+        });
+    } catch (error) {
+        res.status(200).json({
+            status: "Failed",
+            code: 500,
+            message: error.message
+        });
     }
 }
