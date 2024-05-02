@@ -7,15 +7,15 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-// Register user
+// Register user 
 
 //   Post /Signup
-router.post("/SignUp",Signup);    
+router.post("/signup",Signup);    
 
 // POST /login
 router.post("/login",login)
 
 // Post /Delete
-router.post("/DeleteUser",DeleteUser)
+router.post("/deleteuser",DeleteUser)
 
 module.exports = router;
