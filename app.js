@@ -9,6 +9,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var eventRoutes=require('./routes/eventRoutes');
 var locationRouter=require('./routes/locationRoutes');
+var CategoriesRouter=require("./routes/categoriesRoutes");
 
 
 
@@ -30,7 +31,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // using Routes
 app.use('/', indexRouter);
 app.use('/MegmaEvent',eventRoutes);
-app.use("/Megmalocation",locationRouter)
+app.use("/Megmalocation",locationRouter);
+app.use("/Megmacategories",CategoriesRouter)
 
 
 // catch 404 and forward to error handler
