@@ -46,7 +46,7 @@ exports.Allcategories=async(req,res)=>{
             status:"Success",
             code:200,
             message:"All location retrieved successfully",
-            date:categories
+            data:categories
         })
     } catch (error) {
         // Return error response if any error occurs
@@ -63,6 +63,7 @@ exports.Deletecategories= async(req,res)=>{
     try {
         // destructring categoriesId from req.body
         const { categoriesId } = req.body;
+        console.log(categoriesId);
         // If no categoriesId then Send Error
         if (!categoriesId) {
             return res.status(200).json({
