@@ -1,5 +1,6 @@
 const mongoose=require("mongoose");
 
+// Event Schema Created
 const eventSchema = new mongoose.Schema({
     event_name:{
         type:String,
@@ -7,37 +8,37 @@ const eventSchema = new mongoose.Schema({
     },
     event_type:{
         type:String,
-        required:true
+        
     },
-    start_Date:{
+    start_date:{
         type:Date,
-        required:true
+        
     },
-    end_Date:{
-        type:String,
-        required:true
+    end_date:{
+        type:Date,
+        
     },
     location_id:{
-        type:String
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"location",
     },
     description:{
         type:String
     },
-    status:{
+    Status:{
         type:String,
-        required:true,
-        enum:["planning","confirmed","canceled"]
+    },
+    eventImageUrl:[
+        {
+            type:String,
+            default: ""
+        }
+    ],
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Users-Profile-Data"
     }
 },{timestamps:true})
 
-// eventSchema.pre('save', function (next) {
-//     const event = this;
-  
-//     // Convert start and end date to IST before saving
-//     event.start_date = moment(event.start_date).tz('Asia/Kolkata').toDate();
-//     event.end_date = moment(event.end_date).tz('Asia/Kolkata').toDate();
-  
-//     next();
-//   });
 
 module.exports= mongoose.model('Megma-Event',eventSchema);

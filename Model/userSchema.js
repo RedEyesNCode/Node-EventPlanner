@@ -1,20 +1,19 @@
 const mongoose= require("mongoose");
 
+// UserSchema Created
 const userSchema=new mongoose.Schema({
     name:{
         type:String
     },
     email:{
         type:String,
-        match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     },
     PhoneNumber:{
         type:String,
         unique:true,
-        match:/^[0-9]{10}$/
     },
     Address:{
-        type:String,
+        type:String
     },
     password:{
         type:String,
