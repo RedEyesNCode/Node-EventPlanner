@@ -4,7 +4,8 @@ const mongoose= require("mongoose")
 
 const categoriesSchema= new mongoose.Schema({
     categories_name:{
-        type:String
+        type:String,
+        uniqe:true,
     },
     description:{
         type:String

@@ -139,7 +139,7 @@ exports.Updatelocation=async(req,res)=>{
           res.status(200).json({
             status: "Success",
             code: 200,
-            message: "User Balance is Updated !",
+            message: "User location is Updated !",
             data: updatedlocation,
           });
     } catch (error) {

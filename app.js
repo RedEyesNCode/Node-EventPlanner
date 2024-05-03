@@ -30,9 +30,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // using Routes
 app.use('/', indexRouter);
-app.use('/MegmaEvent',eventRoutes);
-app.use("/Megmalocation",locationRouter);
-app.use("/Megmacategories",CategoriesRouter)
+app.use('/megma',eventRoutes);
+app.use("/megma",locationRouter);
+app.use("/megma",CategoriesRouter)
 
 
 // catch 404 and forward to error handler

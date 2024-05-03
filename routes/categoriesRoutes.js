@@ -1,5 +1,5 @@
 var express= require('express');
-const { CreateCategories, Allcategories } = require('../controllers/categoriesController');
+const { CreateCategories, Allcategories, Deletecategories } = require('../controllers/categoriesController');
 
 var router=express.Router();
 
@@ -7,6 +7,10 @@ var router=express.Router();
 router.post("/createcategories",CreateCategories);
 // get /allcategories
 router.get("/allcategories",Allcategories);
+
+// post /deletecategories
+router.post("/deletecategories",Deletecategories);
+
 
 
 module.exports=router;
