@@ -28,6 +28,12 @@ const eventSchema = new mongoose.Schema({
     Status:{
         type:String,
     },
+    eventImageUrl:[
+        {
+            type:String,
+            default: ""
+        }
+    ],
     userId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Users-Profile-Data"
