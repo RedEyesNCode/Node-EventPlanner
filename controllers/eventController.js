@@ -73,7 +73,7 @@ exports.DeleteEvent= async(req,res)=>{
 
 exports.UpdateEvent = async (req, res) => {
     try {
-        const { eventId, start_date, end_date, Status } = req.body;
+        const reqJson= ({ event_name,event_type,eventId, start_date, end_date, Status,location_id,description,userId } = req.body);
         // Event id not exist then
         if (!eventId) {
             return res.status(200).json({
@@ -82,32 +82,34 @@ exports.UpdateEvent = async (req, res) => {
                 message: "Event ID is required for update"
             });
         }
-        // finding existing event with event id
-        const existingEvent = await eventSchema.findById(eventId);
-        // if not exist event then show error
-        if (!existingEvent) {
+        // updating Data 
+        const updatedData = {
+            event_name: reqJson.event_name,
+            event_type: reqJson.event_type,
+            start_date:reqJson.start_date,
+            end_date:reqJson.end_date,
+            location_id:reqJson.location_id,
+            description:reqJson.description,
+            Status:reqJson.Status,
+            userId:reqJson.userId
+          };
+          
+        //   update Data in eventSchema
+          const updatedEvent = await eventSchema.findOneAndUpdate(
+              { _id: reqJson.eventId },
+              { $set: updatedData }, // Update the event data
+              { new: true } // Return the updated document
+            )
+            .exec();
+          
+            // not having Event then Show Error
+        if(!updatedEvent){
             return res.status(200).json({
-                status: "Failed",
-                code: 404,
-                message: "Event not found"
-            });
-        }
-        // if start_date updated by user then start_date updated
-        if (start_date) {
-            existingEvent.start_date = start_date;
-        }
-        // if end_date updated by user then end_date updated
-        if (end_date) {
-            existingEvent.end_date = end_date;
-        }
-        // if Status updated by user then Status updated
-        if (Status) {
-            existingEvent.Status = Status;
-        }
-
-        // Save the existing event
-        const updatedEvent = await existingEvent.save();
-
+                Status:"Failed",
+                code:400,
+                message:"Please Give a valid event Id"
+            })
+        }  
         // Send response after updating the event
         res.status(200).json({
             status: "Success",

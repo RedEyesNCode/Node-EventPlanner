@@ -1,5 +1,5 @@
 const express=require("express");
-const { CreateLocation, Alllocation, Deletelocation } = require("../controllers/locationController");
+const { CreateLocation, Alllocation, Deletelocation, Updatelocation } = require("../controllers/locationController");
 const router=express.Router();
 
 // LOCATION ROUTE
@@ -15,7 +15,7 @@ router.post("/deletelocation",Deletelocation);
 
 
 // post /updatelocation
-// router.post("/updatelocation",Update)
+router.post("/updatelocation",Updatelocation)
 
 
 
