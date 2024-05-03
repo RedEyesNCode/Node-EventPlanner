@@ -1,5 +1,5 @@
 var express = require('express');
-const { Signup, login, DeleteUser } = require('../controllers/userController');
+const { Signup, login, DeleteUser,getAllUser } = require('../controllers/userController');
 var router = express.Router();
 
 /* GET home page. */
@@ -18,6 +18,7 @@ router.post("/login",login)
 // Post /Delete
 router.post("/deleteuser",DeleteUser)
 
+router.get("/getAllUser",getAllUser)
 
 
 module.exports = router;

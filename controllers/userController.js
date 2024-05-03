@@ -101,3 +101,21 @@ exports.DeleteUser = async (req, res) => {
     });
   }
 };
+
+exports.getAllUser = async (req, res) => {
+  try {
+    const users = await userSchema.find();
+    res.status(200).json({
+      status: "Success",
+      code: 200,
+      message: "All Users",
+      data: users,
+    });
+  } catch (error) {
+    res.status(200).json({
+      status: "Failed",
+      code: 500,
+      message: error.message,
+    });
+  }
+}
