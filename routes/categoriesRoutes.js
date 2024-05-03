@@ -1,5 +1,5 @@
 var express= require('express');
-const { CreateCategories, Allcategories, Deletecategories } = require('../controllers/categoriesController');
+const { CreateCategories, Allcategories, Deletecategories, Updatecategories } = require('../controllers/categoriesController');
 
 var router=express.Router();
 
@@ -10,6 +10,10 @@ router.get("/allcategories",Allcategories);
 
 // post /deletecategories
 router.post("/deletecategories",Deletecategories);
+
+// post /updatecategorie
+
+router.post("/updatecategories",Updatecategories)
 
 
 

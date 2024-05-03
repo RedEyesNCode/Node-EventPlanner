@@ -116,7 +116,7 @@ exports.Updatecategories= async(req,res)=>{
 
             const updatedData={
                 categories_name:reqjson.categories_name,
-                description:req.json.description
+                description:reqjson.description
             }
 
             // update data of categories Schema
@@ -141,7 +141,7 @@ exports.Updatecategories= async(req,res)=>{
             status: "Success",
             code: 200,
             message: "User categories is Updated !",
-            data: updatedlocation,
+            data: updatedCategories,
           });
     } catch (error) {
         // Return error response if any error occurs
