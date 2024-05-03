@@ -9,7 +9,7 @@ exports.CreateLocation=async(req,res)=>{
     if(!reqJson){
         return res.status(200).json({
             status:"Failed",
-        Code:500,
+        code:500,
         message:"Null Data is There"
         })
     }
@@ -100,6 +100,7 @@ exports.Updatelocation=async(req,res)=>{
     try {
         const reqJson = ({ venue_name, address, capacity, contact_number, contact_name,website,locationId } =
             req.body);
+            // location id not exist then
             if(!locationId){
                 return res.status(200).json({
                     status:"Failed",
@@ -107,6 +108,8 @@ exports.Updatelocation=async(req,res)=>{
                     message:"LocationId is required for update"
                 })
             }
+        // updating Data 
+
           const updatedData = {
             venue_name: reqJson.venue_name,
             address: reqJson.address,
@@ -115,13 +118,16 @@ exports.Updatelocation=async(req,res)=>{
             contact_name:reqJson.contact_name,
             website:reqJson.website
           };
-      
+
+        //   update Data in LocationSchema
           const updatedlocation = await lacationSchema.findOneAndUpdate(
               { _id: reqJson.locationId },
               { $set: updatedData }, // Update the location data
               { new: true } // Return the updated document
             )
             .exec();
+
+            //  // not having location then Show Error
             if(!updatedlocation){
                 return res.status(200).json({
                     Status:"Failed",
@@ -129,6 +135,7 @@ exports.Updatelocation=async(req,res)=>{
                     message:"Please Give a valid location Id"
                 })
             } 
+            // Send Response after updating the the location
           res.status(200).json({
             status: "Success",
             code: 200,
@@ -136,6 +143,7 @@ exports.Updatelocation=async(req,res)=>{
             data: updatedlocation,
           });
     } catch (error) {
+        // Return error response if any error occurs
         res
         .status(200)
         .json({ status: "Failed", code: 500, message: error.message });
