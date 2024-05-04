@@ -1,4 +1,6 @@
-const mongoose= require("mongoose")
+const mongoose= require("mongoose");
+
+// Venue Schema Created
 
 const venueSchema= new mongoose.Schema({
     venue_name:{

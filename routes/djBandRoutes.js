@@ -5,11 +5,20 @@ const uploadMiddleWare = require("../utils/fileupload");
 
 const router= express.Router();
 
-router.post('/createdj',CreateDjband);
+// post /createdj
+
+router.post('/createdj',CreateDjband)
+
+// post /updatedj
 
 router.post("/updatedj",UpdateDj);
 
+// post /searchDj
+
 router.post("/searchDj",SearchDj)
+
+// post /upload-dj-image
+
 
 router.post(
     "/upload-dj-image",

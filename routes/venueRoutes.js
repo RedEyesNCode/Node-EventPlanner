@@ -4,9 +4,13 @@ const { Createvenue, Updatevenue, Searchvenue } = require("../controllers/venueC
 const router=express.Router()
 
 
+// post //createvenue
 router.post("/createvenue",Createvenue);
 
+// post /updatevenue
 router.post("/updatevenue",Updatevenue);
+
+// post /searchvenue
 
 router.post("/searchvenue",Searchvenue);
 

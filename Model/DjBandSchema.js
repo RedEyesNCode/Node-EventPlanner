@@ -1,5 +1,6 @@
 const mongoose= require("mongoose");
 
+// DJ BAND SCHEMA
 const DjBandSchema=new mongoose.Schema({
     dj_band_name:{
         type:String

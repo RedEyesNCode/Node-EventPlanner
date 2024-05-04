@@ -40,8 +40,10 @@ exports.Createvenue= async(req,res)=>{
 
 exports.Updatevenue= async(req,res)=>{
     try {
+        // destrucreing data from req.body
         const reqJson=({venue_name,venue_address,venue_capacity,venue_contact_person,contact_email_phone,additional_services,parking_facility,alcohol_permission,cost,payment_terms,sequrity_needs,venueId}=
             req.body);
+            // if venue id not exist then send Error
         if(!venueId){
             return res.status(200).json({
                 status:"Failed",
@@ -70,7 +72,7 @@ exports.Updatevenue= async(req,res)=>{
             {$set:updateData}, //Update the location Data 
             {new:true} // Return the updated document 
         )
-
+        // not having valid venue id then show error
         if(!updatedvenue){
             return res.status(200).json({
                 status:"Failed",
@@ -79,7 +81,7 @@ exports.Updatevenue= async(req,res)=>{
             })
 
         }
-
+        // Show data Succesfully
         res.status(200).json({
             status:"Success",
             code:200,
@@ -100,16 +102,22 @@ exports.Updatevenue= async(req,res)=>{
 
 
 exports.Searchvenue= async(req,res)=>{
+
 try {
+    // Serching by venue name and venue address
     const {venue_name,venue_address}=req.body;
+    // create searchquery variable
     const searchQuery={};
+    // search by venue name 
     if(venue_name){
         searchQuery.venue_name= {$regex:new RegExp(venue_name,"i")};
     }
+    // search by venue address
     if(venue_address){
         searchQuery.venue_address={$regex:new RegExp(venue_address,"i")};
     }
     const venue= await venueSchema.find(searchQuery);
+    // if venue length is 0 then show error
     if(venue.length===0){
         return res.status(200).json({
             status:"Failed",
@@ -117,6 +125,7 @@ try {
             message:"No Venue Found to Serch Criteria"
         })
     }
+    // Show Succesfully data
     res.status(200).json({
         status:"Success",
         code:200,

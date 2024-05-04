@@ -102,6 +102,7 @@ exports.Deletecategories= async(req,res)=>{
 
 exports.Updatecategories= async(req,res)=>{
     try {
+        // Reqjson come from req.body with categoriesId
         const reqjson=({categories_name,description,categoriesId,venueId,djbandId}=
             req.body)
 
@@ -139,7 +140,7 @@ exports.Updatecategories= async(req,res)=>{
                 })
              }
 
-             // Send Response after updating the the location
+             // Send Response after updating the the categories
           res.status(200).json({
             status: "Success",
             code: 200,

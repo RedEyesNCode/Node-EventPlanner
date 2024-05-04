@@ -1,5 +1,6 @@
 const mongoose=require("mongoose");
 
+// Creating decoration Schema
 const decoationSchema= new mongoose.Schema({
     decoration_name:{
         type:String,
