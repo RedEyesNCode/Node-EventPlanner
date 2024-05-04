@@ -5,10 +5,13 @@ const mongoose= require("mongoose")
 const categoriesSchema= new mongoose.Schema({
     categories_name:{
         type:String,
-        uniqe:true,
     },
     description:{
         type:String
+    },
+    venue:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"venue-Details"
     }
 },{timestamps:true})
 

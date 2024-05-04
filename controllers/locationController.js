@@ -6,13 +6,15 @@ exports.CreateLocation=async(req,res)=>{
     // Reqjson come from req.body
     const reqJson=({venue_name,address,capacity,contact_number,contact_name,website}=req.body)
     // if  no reqJson there send Error 
-    if(!reqJson){
+    if (!reqJson || Object.keys(reqJson).length === 0) {
         return res.status(200).json({
-            status:"Failed",
-        code:500,
-        message:"Null Data is There"
-        })
+            status: "Failed",
+            code: 400,
+            message: "No data received in the request body"
+        });
     }
+    // Continue processing req.body since it exists and is not empty
+    
     // Saveing json data to location Schema
     const newlocation= new lacationSchema(reqJson);
     const savedlocation= await newlocation.save();
@@ -130,7 +132,7 @@ exports.Updatelocation=async(req,res)=>{
             //  // not having location then Show Error
             if(!updatedlocation){
                 return res.status(200).json({
-                    Status:"Failed",
+                    status:"Failed",
                     code:400,
                     message:"Please Give a valid location Id"
                 })

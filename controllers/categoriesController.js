@@ -5,18 +5,18 @@ const CategoriesSchema= require("../Model/categoriesSchema");
 exports.CreateCategories=async(req,res)=>{
     try {
     // Reqjson come from req.body
-     const reqJson=({categories_name,description}=req.body);
+     const reqJson=({categories_name,description,venueId}=req.body);
 
     //  if no reqjson then Send Error
-    if(!reqJson){
-        return res.status(200).json({
-            status:"Failed",
-            code:500,
-            message:"Null data is there"
-        })
+    if (!reqJson || Object.keys(reqJson).length === 0) {
+        return res.status(400).json({
+            status: "Failed",
+            code: 400,
+            message: "No data received in the request body"
+        });
     }
     // Saveing json data to location Schema 
-    const newcategories= new CategoriesSchema(reqJson);
+    const newcategories= new CategoriesSchema({...reqJson,venue:venueId});
     const savedcategories= await newcategories.save();
     // Send the categories Succesfully
     res.status(200).json({
@@ -40,7 +40,7 @@ exports.CreateCategories=async(req,res)=>{
 exports.Allcategories=async(req,res)=>{
     try {
         // Find all categories 
-        const categories=await CategoriesSchema.find()
+        const categories=await CategoriesSchema.find().populate("venue");
         // Show all categories
         res.status(200).json({
             status:"Success",

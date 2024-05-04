@@ -6,12 +6,12 @@ exports.CreateEvent= async(req,res)=>{
     
         const reqJson=({ event_name, event_type, start_date, end_date, location_id, description, Status,userId,location_id}=req.body)
         // if reqJson not exist then show error
-        if(!reqJson){
-            return res.status(200).json({
-                status:"Failed",
-            Code:500,
-            message:"Null Data is There"
-            })
+        if (!reqJson || Object.keys(reqJson).length === 0) {
+            return res.status(400).json({
+                status: "Failed",
+                code: 400,
+                message: "No data received in the request body"
+            });
         }
         // save the data to event Schema
         const newEvent= new eventSchema(reqJson);
