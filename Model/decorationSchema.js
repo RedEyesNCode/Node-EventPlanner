@@ -26,10 +26,12 @@ const decoationSchema= new mongoose.Schema({
     price:{
         type:String
     },
-    decorationimageURL:{
-        type:String,
-        default: ""
-    },
+    decorationimageURL:[
+        {
+            type:String,
+            default: ""
+        }
+    ],
     vendor:{
         type:String
     },

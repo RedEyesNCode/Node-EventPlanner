@@ -22,6 +22,7 @@ router.post("/searchDj",SearchDj)
 
 router.post(
     "/upload-dj-image",
+
     uploadMiddleWare.single("file"),
     async (req, res) => {
       if (!req.file) {

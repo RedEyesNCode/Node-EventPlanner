@@ -34,3 +34,6 @@ exports.CreateDecoration=async(req,res)=>{
         })
     }
 }
+
+
+// Update Decoration Schema
