@@ -12,6 +12,10 @@ const categoriesSchema= new mongoose.Schema({
     venue:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"venue-Details"
+    },
+    dj_band:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Dj-Band"
     }
 },{timestamps:true})
 

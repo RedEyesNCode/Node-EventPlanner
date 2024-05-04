@@ -27,7 +27,7 @@ exports.CreateDjband= async(req,res)=>{
         // Show Error
         res.status(200).json({
             status:"Failed",
-            Code:500,
+            code:500,
             message:error.message
           })
     }

@@ -5,7 +5,7 @@ const CategoriesSchema= require("../Model/categoriesSchema");
 exports.CreateCategories=async(req,res)=>{
     try {
     // Reqjson come from req.body
-     const reqJson=({categories_name,description,venueId}=req.body);
+     const reqJson=({categories_name,description,venueId,djbandId}=req.body);
 
     //  if no reqjson then Send Error
     if (!reqJson || Object.keys(reqJson).length === 0) {
@@ -16,7 +16,7 @@ exports.CreateCategories=async(req,res)=>{
         });
     }
     // Saveing json data to location Schema 
-    const newcategories= new CategoriesSchema({...reqJson,venue:venueId});
+    const newcategories= new CategoriesSchema({...reqJson,venue:venueId,dj_band:djbandId});
     const savedcategories= await newcategories.save();
     // Send the categories Succesfully
     res.status(200).json({
@@ -40,7 +40,7 @@ exports.CreateCategories=async(req,res)=>{
 exports.Allcategories=async(req,res)=>{
     try {
         // Find all categories 
-        const categories=await CategoriesSchema.find().populate("venue");
+        const categories=await CategoriesSchema.find().populate("venue").populate("dj_band");
         // Show all categories
         res.status(200).json({
             status:"Success",
@@ -102,7 +102,7 @@ exports.Deletecategories= async(req,res)=>{
 
 exports.Updatecategories= async(req,res)=>{
     try {
-        const reqjson=({categories_name,description,categoriesId}=
+        const reqjson=({categories_name,description,categoriesId,venueId,djbandId}=
             req.body)
 
             if(!categoriesId){
@@ -117,7 +117,9 @@ exports.Updatecategories= async(req,res)=>{
 
             const updatedData={
                 categories_name:reqjson.categories_name,
-                description:reqjson.description
+                description:reqjson.description,
+                dj_band:reqjson.djbandId,
+                venue:reqjson.venueId,
             }
 
             // update data of categories Schema
