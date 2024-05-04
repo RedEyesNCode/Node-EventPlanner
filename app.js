@@ -12,6 +12,7 @@ var eventRoutes=require('./routes/eventRoutes');
 var locationRouter=require('./routes/locationRoutes');
 var CategoriesRouter=require("./routes/categoriesRoutes");
 const venueRouter= require("./routes/venueRoutes")
+const djBandRouter= require('./routes/DjBandRoutes')
 
 
 var app = express();
@@ -35,6 +36,7 @@ app.use('/megma',eventRoutes);
 app.use("/megma",locationRouter);
 app.use("/megma",CategoriesRouter)
 app.use('/megma',venueRouter)
+app.use('/megma',djBandRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

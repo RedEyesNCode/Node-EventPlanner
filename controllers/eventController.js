@@ -7,7 +7,7 @@ exports.CreateEvent= async(req,res)=>{
         const reqJson=({ event_name, event_type, start_date, end_date, location_id, description, Status,userId,location_id}=req.body)
         // if reqJson not exist then show error
         if (!reqJson || Object.keys(reqJson).length === 0) {
-            return res.status(400).json({
+            return res.status(200).json({
                 status: "Failed",
                 code: 400,
                 message: "No data received in the request body"
