@@ -130,12 +130,12 @@ exports.UpdateEvent = async (req, res) => {
 exports.Allevent=async(req,res)=>{
     try {
         // finding all event
-        const events=await eventSchema.find();
+        const events = await eventSchema.find();
         res.status(200).json({
             status:"Success",
             code:200,
             message:"All events retrieved successfully",
-            date:events
+            data:events
         })
     } catch (error) {
         // Return error response if any error occurs
