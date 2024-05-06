@@ -1,28 +1,31 @@
-const mongoose= require("mongoose");
+const mongoose = require("mongoose");
 
 // UserSchema Created
-const userSchema=new mongoose.Schema({
-    name:{
-        type:String
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
     },
-    email:{
-        type:String,
+    email: {
+      type: String,
     },
-    PhoneNumber:{
-        type:String,
-        unique:true,
+    PhoneNumber: {
+      type: String,
+      unique: true,
     },
-    Address:{
-        type:String
+    Address: {
+      type: String,
     },
-    password:{
-        type:String,
+    password: {
+      type: String,
     },
-    isLoggedIn:{
-        type:Boolean,
-        default:false
-    }
-},{timestamps:true})
+    isLoggedIn: {
+      type: Boolean,
+      default: false,
+    },
+    events: [{ type: mongoose.Schema.Types.ObjectId, ref: "Megma-Event" }],
+  },
+  { timestamps: true }
+);
 
-
-module.exports=mongoose.model("Users-Profile-Data",userSchema)
+module.exports = mongoose.model("Users-Profile-Data", userSchema);

@@ -35,7 +35,14 @@ const eventSchema = new mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Users-Profile-Data",
-      
+    },
+    categorie_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Categories",
+    },
+    eventDetail_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "EventDetails",
     },
   },
   { timestamps: true }

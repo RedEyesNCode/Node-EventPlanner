@@ -158,3 +158,22 @@ exports.getAllUser = async (req, res) => {
     });
   }
 };
+
+exports.getAllUserEvents = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const user = await userSchema.findOne({ _id: userId }).populate("events");
+    res.status(200).json({
+      status: "Success",
+      code: 200,
+      message: "All Events",
+      data: user.events,
+    });
+  } catch (error) {
+    res.status(200).json({
+      status: "Failed",
+      code: 500,
+      message: error.message,
+    });
+  }
+}

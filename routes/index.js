@@ -1,5 +1,5 @@
 var express = require('express');
-const { Signup, login, DeleteUser,getAllUser,logout } = require('../controllers/userController');
+const { Signup, login, DeleteUser,getAllUser,logout ,getAllUserEvents} = require('../controllers/userController');
 var router = express.Router();
 
 /* GET home page. */
@@ -22,5 +22,6 @@ router.post("/deleteuser",DeleteUser)
 
 router.get("/getAllUser",getAllUser)
 
+router.post("/get-user-events",getAllUserEvents)
 
 module.exports = router;

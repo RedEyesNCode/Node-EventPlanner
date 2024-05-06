@@ -13,7 +13,7 @@ var eventDetailRoutes = require("./routes/eventDetailRoutes");
 var locationRouter = require("./routes/locationRoutes");
 var CategoriesRouter = require("./routes/categoriesRoutes");
 const venueRouter = require("./routes/venueRoutes");
-const djBandRouter = require("./routes/DjBandRoutes");
+const djBandRouter = require("./routes/djBandRoutes");
 const decorationRouter = require("./routes/decorationRoutes");
 
 var app = express();
