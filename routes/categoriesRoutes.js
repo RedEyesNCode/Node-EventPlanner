@@ -1,12 +1,20 @@
 var express= require('express');
-const { CreateCategories, Allcategories } = require('../controllers/categoriesController');
+const { CreateCategories, Allcategories, Deletecategories, Updatecategories } = require('../controllers/categoriesController');
 
 var router=express.Router();
 
 // post /createcategories
-router.post("/createcategories",CreateCategories);
+router.post("/create-categories",CreateCategories);
 // get /allcategories
-router.get("/allcategories",Allcategories);
+router.get("/all-categories",Allcategories);
+
+// post /deletecategories
+router.post("/delete-categories",Deletecategories);
+
+// post /updatecategorie
+
+router.post("/update-categories",Updatecategories)
+
 
 
 module.exports=router;

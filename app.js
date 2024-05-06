@@ -3,16 +3,18 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
-const cors = require("cors");
+const cors = require("cors"); // Import the cors middleware
 
 // Requiring Routes
 
 var indexRouter = require("./routes/index");
 var eventRoutes = require("./routes/eventRoutes");
-var eventDetailRoutes = require("./routes//eventDetailRoutes");
+var eventDetailRoutes = require("./routes/eventDetailRoutes");
 var locationRouter = require("./routes/locationRoutes");
 var CategoriesRouter = require("./routes/categoriesRoutes");
+const venueRouter = require("./routes/venueRoutes");
+const djBandRouter = require("./routes/DjBandRoutes");
+const decorationRouter = require("./routes/decorationRoutes");
 
 var app = express();
 
@@ -35,6 +37,9 @@ app.use("/megma", eventRoutes);
 app.use("/megma", eventDetailRoutes);
 app.use("/megma", locationRouter);
 app.use("/megma", CategoriesRouter);
+app.use("/megma", venueRouter);
+app.use("/megma", djBandRouter);
+app.use("/megma", decorationRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

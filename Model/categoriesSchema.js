@@ -4,10 +4,18 @@ const mongoose= require("mongoose")
 
 const categoriesSchema= new mongoose.Schema({
     categories_name:{
-        type:String
+        type:String,
     },
     description:{
         type:String
+    },
+    venue:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"venue-Details"
+    },
+    dj_band:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Dj-Band"
     }
 },{timestamps:true})
 
