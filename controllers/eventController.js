@@ -148,7 +148,6 @@ exports.Allevent = async (req, res) => {
       data: events,
     });
   } catch (error) {
-    // Return error response if any error occurs
     res.status(200).json({
       status: "Failed",
       code: 500,

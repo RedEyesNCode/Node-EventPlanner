@@ -15,6 +15,10 @@ var CategoriesRouter = require("./routes/categoriesRoutes");
 const venueRouter = require("./routes/venueRoutes");
 const djBandRouter = require("./routes/djBandRoutes");
 const decorationRouter = require("./routes/decorationRoutes");
+const tentHouseRouter = require("./routes/tentHouseRoutes");
+const travelRouter = require("./routes/travelRoutes");
+const makeupRouter = require("./routes/makeupRoutes");
+const functionRouter = require("./routes/functionRoutes");
 
 var app = express();
 
@@ -40,6 +44,10 @@ app.use("/megma", CategoriesRouter);
 app.use("/megma", venueRouter);
 app.use("/megma", djBandRouter);
 app.use("/megma", decorationRouter);
+app.use("/megma", tentHouseRouter);
+app.use("/megma", travelRouter);
+app.use("/megma", makeupRouter);
+app.use("/megma", functionRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,53 +1,41 @@
-const mongoose=require("mongoose");
+const mongoose = require("mongoose");
 
 // Creating decoration Schema
 const decoationSchema= new mongoose.Schema({
-    decoration_name:{
+    name:{
         type:String,
+        default:""
+    },
+    members:{
+        type:String,
+        default:""
     },
     description:{
-        type:String
+        type:String,
+        default:""
     },
-    decoration_type:{
-        type:String
+    hourlyRate:{
+        type:Number,
+        default:0
     },
-    theme:{
-        type:String
+    minHours: {
+        type:String,
+        default:0
     },
-    color:{
-        type:String
+    rate : {
+        type:String,
+        default:0
     },
-    size:{
-        type:String
+    location :{
+        type:String,
+        default:""
     },
-    availability:{
-        type:String
+    number :{
+        type:String,
+        default:""
     },
-    price:{
-        type:String
-    },
-    decorationimageURL:[
-        {
-            type:String,
-            default: ""
-        }
-    ],
-    vendor:{
-        type:String
-    },
-    reviews:{
-        type:String
-    },
-    rating:{
-        type:String
-    },
-    location:{
-        type:String
-    },
-    additional_information:{
-        type:String
-    },
-    tags:String
+    image : []
+
 },{timestamps:true})
 
 module.exports= mongoose.model("Decoration",decoationSchema);
