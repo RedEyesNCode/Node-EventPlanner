@@ -1,34 +1,17 @@
 const eventSchema = require("../Model/eventSchema");
 const userSchema = require("../Model/userSchema");
+const CategoriesSchema = require("../Model/categoriesSchema");
 
 exports.CreateEvent = async (req, res) => {
   try {
-    const reqJson = ({
-      event_name,
-      event_type,
-      start_date,
-      end_date,
-      location_id,
-      description,
-      Status,
-      userId,
-      location_id,
-      categorie_id,
-    } = req.body);
-    const user = await userSchema.findById(req.body.userId);
-    if (!reqJson || Object.keys(reqJson).length === 0) {
-      return res.status(200).json({
-        status: "Failed",
-        code: 400,
-        message: "No data received in the request body",
-      });
-    }
-    // save the data to event Schema
-    const newEvent = new eventSchema(reqJson);
-    user.events.push(newEvent._id);
-    await user.save();
+    const newEvent = new eventSchema(req.body); //new event
+    const categorie = await CategoriesSchema.findById(req.body.categorie_id); //finding category
+    const user = await userSchema.findById(req.body.userId); //finding user
+    user.events.push(newEvent._id); //pushing event id in user schema
+    await user.save(); //saving user
+    categorie.events.push(newEvent._id); //pushing event id in categories schema
+    await categorie.save(); //saving categories
     const savedEvent = await newEvent.save();
-    // Show Data
     res.status(200).json({
       status: "Success",
       code: 200,
@@ -36,7 +19,6 @@ exports.CreateEvent = async (req, res) => {
       data: savedEvent,
     });
   } catch (error) {
-    // Show Error
     res.status(200).json({
       status: "Failed",
       Code: 500,
@@ -154,6 +136,8 @@ exports.Allevent = async (req, res) => {
     // finding all event
     const events = await eventSchema
       .find()
+      .populate("userId")
+      .populate("location_id")
       .populate("categorie_id")
       .populate("eventDetail_id")
       .exec();

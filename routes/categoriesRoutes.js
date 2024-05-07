@@ -14,7 +14,8 @@ router.post("/delete-categories",Deletecategories);
 // post /updatecategorie
 
 router.post("/update-categories",Updatecategories)
-
+//ek category se kitne bhi event  link ho sakte hain mtlb category se kitne event link ho sakte hain
+//or cat k object me event id store hain or event k object me cat id store hain 
 
 
 module.exports=router;
