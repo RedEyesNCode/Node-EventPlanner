@@ -22,8 +22,8 @@ const varmalaSchema = new mongoose.Schema({
     default: ''
   },
   number_of_guests: {
-    type: Number,
-    default: 0
+    type: String,
+    default: ''
   },
   requirements: {
     type: String,

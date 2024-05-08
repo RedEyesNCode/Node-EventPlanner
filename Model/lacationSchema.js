@@ -9,7 +9,7 @@ const lacationSchema=new mongoose.Schema({
         type:String
     },
     capacity:{
-        type:Number,
+        type:String,
     },
     contact_number:String,
     contact_name:String,

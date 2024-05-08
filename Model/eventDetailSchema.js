@@ -4,8 +4,8 @@ const mongoose = require("mongoose");
 const eventDetailSchema = new mongoose.Schema(
   {
     numberOfGuests: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: '',
     },
     occasion: {
       type: String,
@@ -24,16 +24,16 @@ const eventDetailSchema = new mongoose.Schema(
       default: "",
     },
     food: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: '',
     },
     music: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: '',
     },
     seating_Arrangement: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: '',
     },
     invite_Message: {
       type: String,

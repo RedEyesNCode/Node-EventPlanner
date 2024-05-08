@@ -14,24 +14,24 @@ const makeupSchema = new mongoose.Schema({
         default : ''
     },
     members : {
-        type : Number,
-        default : 0
+        type : String,
+        default : ''
     },
     description : {
         type : String,
         default : ''
     },
     hourly_rate : {
-        type : Number,
-        default : 0
+        type : String,
+        default : ''
     },
     min_hours : {
-        type : Number,
-        default : 0
+        type : String,
+        default : ''
     },
     rate : {
-        type : Number,
-        default : 0
+        type : String,
+        default : ''
     },
     location : {
         type : String,

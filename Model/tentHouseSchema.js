@@ -5,9 +5,9 @@ const tentHouseSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  number: {
-    type: Number,
-    default: 0,
+  String: {
+    type: String,
+    default: '',
   },
   adderss: {
     type: String,
@@ -19,12 +19,12 @@ const tentHouseSchema = new mongoose.Schema({
   },
   image: [],
   price: {
-    type: Number,
-    default: 0,
+    type: String,
+    default: '',
   },
   availability: {
-    type: Boolean,
-    default: false,
+    type: String,
+    default: '',
   },
 });
 

@@ -11,7 +11,6 @@ const userSchema = new mongoose.Schema(
     },
     PhoneNumber: {
       type: String,
-      unique: true,
     },
     Address: {
       type: String,
@@ -20,8 +19,8 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     isLoggedIn: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: '',
     },
     events: [{ type: mongoose.Schema.Types.ObjectId, ref: "Megma-Event" }],
   },

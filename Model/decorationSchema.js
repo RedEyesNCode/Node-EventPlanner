@@ -15,16 +15,16 @@ const decoationSchema= new mongoose.Schema({
         default:""
     },
     hourlyRate:{
-        type:Number,
-        default:0
+        type:String,
+        default:''
     },
     minHours: {
         type:String,
-        default:0
+        default:''
     },
     rate : {
         type:String,
-        default:0
+        default:''
     },
     location :{
         type:String,

@@ -18,8 +18,8 @@ const travelSchema = new mongoose.Schema({
         default : ''
     },
     hourly_rate : {
-        type : Number,
-        default : 0
+        type : String,
+        default : ''
     },
     vehcile_type : {
         type : String,
@@ -34,8 +34,8 @@ const travelSchema = new mongoose.Schema({
         default : ''
     },
     number : {
-        type : Number,
-        default : 0 
+        type : String,
+        default : ''
     }
 })
 
