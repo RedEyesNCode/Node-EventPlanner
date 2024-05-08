@@ -39,7 +39,7 @@ const eventSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Users-Profile-Data",
     },
-    categorie_id: {
+    category_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Categories",
     },

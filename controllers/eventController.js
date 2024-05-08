@@ -5,7 +5,7 @@ const CategoriesSchema = require("../Model/categoriesSchema");
 exports.CreateEvent = async (req, res) => {
   try {
     const newEvent = new eventSchema(req.body); //new event
-    const categorie = await CategoriesSchema.findById(req.body.categorie_id); //finding category
+    const categorie = await CategoriesSchema.findById(req.body.category_id); //finding category
     const user = await userSchema.findById(req.body.userId); //finding user
     user.events.push(newEvent._id); //pushing event id in user schema
     await user.save(); //saving user
@@ -138,7 +138,7 @@ exports.Allevent = async (req, res) => {
       .find()
       .populate("userId")
       .populate("location_id")
-      .populate("categorie_id")
+      .populate("category_id")
       .populate("eventDetail_id")
       .exec();
     res.status(200).json({
@@ -155,3 +155,27 @@ exports.Allevent = async (req, res) => {
     });
   }
 };
+
+exports.getEventByCategoryId = async (req, res) => {
+  try {
+    // finding event by category id
+    const events = await eventSchema
+      .find({ category_id: req.body.category_id })
+      .populate("userId")
+      .populate("location_id")
+      .populate("category_id")
+      .exec();
+    res.status(200).json({
+      status: "Success",
+      code: 200,
+      message: "All events retrieved successfully",
+      data: events,
+    });
+  } catch (error) {
+    res.status(200).json({
+      status: "Failed",
+      code: 500,
+      message: error.message,
+    });
+  }
+}
