@@ -45,7 +45,7 @@ exports.Allcategories=async(req,res)=>{
         res.status(200).json({
             status:"Success",
             code:200,
-            message:"All location retrieved successfully",
+            message:"All Categories retrieved successfully",
             data:categories
         })
     } catch (error) {
