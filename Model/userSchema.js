@@ -18,10 +18,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
     },
-    isLoggedIn: {
-      type: String,
-      default: '',
-    },
+    
     events: [{ type: mongoose.Schema.Types.ObjectId, ref: "Megma-Event" }],
   },
   { timestamps: true }

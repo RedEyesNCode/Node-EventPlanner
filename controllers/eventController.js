@@ -140,6 +140,7 @@ exports.Allevent = async (req, res) => {
       .populate("location_id")
       .populate("category_id")
       .populate("eventDetail_id")
+      .populate("booking_details")
       .exec();
     res.status(200).json({
       status: "Success",
@@ -164,6 +165,7 @@ exports.getEventByCategoryId = async (req, res) => {
       .populate("userId")
       .populate("location_id")
       .populate("category_id")
+      .populate("booking_details")
       .exec();
     res.status(200).json({
       status: "Success",

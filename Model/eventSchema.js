@@ -31,10 +31,12 @@ const eventSchema = new mongoose.Schema(
         default: "",
       },
     ],
-    event_booking_status: {
-      type: String,
-      default: "",
-    },
+    booking_details: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Booking-Detail",
+      }
+    ],
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Users-Profile-Data",

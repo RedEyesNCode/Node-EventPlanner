@@ -176,7 +176,7 @@ exports.deleteVenue = async (req, res) => {
 
 exports.getAllVenue = async (req, res) => {
   try {
-    const venue = await venueSchema.find();
+    const venue = await venueSchema.find().populate("event_id");
     if (venue.length === 0) {
       return res.status(200).json({
         status: "Failed",

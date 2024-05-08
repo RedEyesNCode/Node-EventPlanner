@@ -54,18 +54,6 @@ exports.login = async (req, res) => {
         password: reqJson.password,
       })
       .exec();
-    // if user not exist then show error
-    if (!loginUser) {
-      return res.status(200).json({
-        status: "Failed",
-        code: 400,
-        message: "No User Exit Please fill valid Data",
-      });
-    }
-    // saving isloggedin to  loggin user data
-    loginUser.isLoggedIn = true;
-    loginUser.save();
-    // Showing data succesfully
     res.status(200).json({
       status: "Success",
       code: 200,
@@ -73,7 +61,6 @@ exports.login = async (req, res) => {
       data: loginUser,
     });
   } catch (error) {
-    // show error
     res
       .status(200)
       .json({ status: "Failed", code: 500, message: error.message });
@@ -81,12 +68,6 @@ exports.login = async (req, res) => {
 };
 exports.logout = async (req, res) => {
   try {
-    const { userId } = req.body;
-    const user = await userSchema.findOneAndUpdate(
-      { _id: userId }, 
-      { isLoggedIn: false },
-      { new: true }
-    )
     res.status(200).json({
       status: "Success",
       code: 200,
@@ -167,7 +148,7 @@ exports.getAllUserEvents = async (req, res) => {
       status: "Success",
       code: 200,
       message: "All Events",
-      data: user.events,
+      data: user,
     });
   } catch (error) {
     res.status(200).json({
