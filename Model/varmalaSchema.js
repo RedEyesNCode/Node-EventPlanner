@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const functionSchema = new mongoose.Schema({
+const varmalaSchema = new mongoose.Schema({
   name: {
     type: String,
     default: ''
@@ -31,4 +31,4 @@ const functionSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('function', functionSchema);
+module.exports = mongoose.model('Varmala', varmalaSchema);

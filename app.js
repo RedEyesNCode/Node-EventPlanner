@@ -18,7 +18,7 @@ const decorationRouter = require("./routes/decorationRoutes");
 const tentHouseRouter = require("./routes/tentHouseRoutes");
 const travelRouter = require("./routes/travelRoutes");
 const makeupRouter = require("./routes/makeupRoutes");
-const functionRouter = require("./routes/functionRoutes");
+const varmalaRouter = require("./routes/varmalaRoutes");
 
 var app = express();
 
@@ -47,7 +47,7 @@ app.use("/megma", decorationRouter);
 app.use("/megma", tentHouseRouter);
 app.use("/megma", travelRouter);
 app.use("/megma", makeupRouter);
-app.use("/megma", functionRouter);
+app.use("/megma", varmalaRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
