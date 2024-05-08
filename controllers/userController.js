@@ -72,13 +72,13 @@ exports.logout = async (req, res) => {
       status: "Success",
       code: 200,
       message: "User Logged out !",
-    })
+    });
   } catch (error) {
     res.status(200).json({
-      status: "Failed", 
+      status: "Failed",
       code: 200,
-      message: error.message
-    })
+      message: error.message,
+    });
   }
 };
 
@@ -142,19 +142,19 @@ exports.getAllUser = async (req, res) => {
 
 exports.getAllUserEvents = async (req, res) => {
   try {
-    const { userId } = req.body;
-    const user = await userSchema.findOne({ _id: userId }).populate("events");
+    const user = await userSchema.findById(req.body.userId).populate("events");
     res.status(200).json({
       status: "Success",
       code: 200,
       message: "All Events",
-      data: user,
+      data: user, // Accessing the populated events directly from the user object
     });
   } catch (error) {
-    res.status(200).json({
+    res.status(500).json({ // Correcting status code to 500 for server error
       status: "Failed",
       code: 500,
       message: error.message,
     });
   }
-}
+};
+

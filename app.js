@@ -21,6 +21,8 @@ const makeupRouter = require("./routes/makeupRoutes");
 const varmalaRouter = require("./routes/varmalaRoutes");
 const photoVideoRouter = require("./routes/photoVideoRoutes");
 const bookingDetailRoutes = require("./routes/bookingDetailRoutes");
+const walletRoutes = require("./routes/walletRoutes");
+const transactionRoutes = require("./routes/transactionRoutes");
 
 var app = express();
 
@@ -52,6 +54,8 @@ app.use("/megma", makeupRouter);
 app.use("/megma", varmalaRouter);
 app.use("/megma", photoVideoRouter);
 app.use("/megma", bookingDetailRoutes);
+app.use("/megma", walletRoutes);
+app.use("/megma", transactionRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
