@@ -11,10 +11,10 @@ const eventSchema = new mongoose.Schema(
       type: String,
     },
     start_date: {
-      type: Date,
+      type: String,
     },
     end_date: {
-      type: Date,
+      type: String,
     },
     location_id: {
       type: mongoose.Schema.Types.ObjectId,
