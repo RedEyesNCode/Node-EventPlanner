@@ -23,6 +23,7 @@ const photoVideoRouter = require("./routes/photoVideoRoutes");
 const bookingDetailRoutes = require("./routes/bookingDetailRoutes");
 const walletRoutes = require("./routes/walletRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
+const panditRoutes = require("./routes/panditRoutes");
 
 var app = express();
 
@@ -56,6 +57,7 @@ app.use("/megma", photoVideoRouter);
 app.use("/megma", bookingDetailRoutes);
 app.use("/megma", walletRoutes);
 app.use("/megma", transactionRoutes);
+app.use("/megma", panditRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

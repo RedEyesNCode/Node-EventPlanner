@@ -28,7 +28,11 @@ const varmalaSchema = new mongoose.Schema({
   requirements: {
     type: String,
     default: ''
-  }
+  },
+  event_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Megma-Event"
+},
 });
 
 module.exports = mongoose.model('Varmala', varmalaSchema);

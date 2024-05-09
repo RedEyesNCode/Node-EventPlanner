@@ -41,6 +41,10 @@ const makeupSchema = new mongoose.Schema({
         type : String,
         default : ''
     },
+    event_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Megma-Event"
+    },
 })
 
 module.exports = mongoose.model('Makeup-Artist', makeupSchema);

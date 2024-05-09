@@ -40,7 +40,11 @@ const DjBandSchema=new mongoose.Schema({
     ],
     contact_information:{
         type:String
-    }
+    },
+    event_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Megma-Event"
+    },
 },{timestamps:true});
 
 module.exports= mongoose.model("Dj-Band",DjBandSchema);

@@ -4,8 +4,8 @@ const eventSchema = require("../Model/eventSchema");
 exports.linkEventDetail = async (req, res) => {
   try {
     const eventDetail = new eventDetailSchema(req.body);
-    const { eventId } = req.body;
-    const event = await eventSchema.findById(eventId);
+    const { event_id  } = req.body;
+    const event = await eventSchema.findById(event_id);
     event.eventDetail_id = eventDetail._id;
     await event.save();
     await eventDetail.save();
@@ -50,7 +50,7 @@ exports.deleteEventDetail = async (req, res) => {
 exports.getEventDetail = async (req, res) => {
   try {
     const { eventId } = req.body;
-    const eventDetail = await eventDetailSchema.findOne({ eventId });
+    const eventDetail = await eventDetailSchema.findOne({ eventId }).populate("event_id");
     res.json({
       status: "Success",
       code: 200,

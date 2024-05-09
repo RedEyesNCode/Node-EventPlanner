@@ -36,7 +36,11 @@ const travelSchema = new mongoose.Schema({
     number : {
         type : String,
         default : ''
-    }
+    },
+    event_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Megma-Event"
+    },
 })
 
 module.exports = mongoose.model('Travel', travelSchema);

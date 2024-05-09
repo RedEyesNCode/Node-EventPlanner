@@ -21,7 +21,7 @@ exports.createTentHouse = async (req, res) => {
 
 exports.getAllTentHouse = async (req, res) => {
   try {
-    const tentHouses = await tentHouseSchema.find();
+    const tentHouses = await tentHouseSchema.find().populate("event_id");
     res.status(200).json({
       status: "Success",
       code: 200,

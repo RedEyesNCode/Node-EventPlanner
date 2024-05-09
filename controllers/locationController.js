@@ -39,7 +39,7 @@ exports.CreateLocation=async(req,res)=>{
 exports.Alllocation=async(req,res)=>{
     try {
         // Find all location 
-        const location=await lacationSchema.find()
+        const location=await lacationSchema.find();
         // Show all location
         res.status(200).json({
             status:"Success",
@@ -100,7 +100,7 @@ exports.Deletelocation= async(req,res)=>{
 
 exports.Updatelocation=async(req,res)=>{
     try {
-        const reqJson = ({ venue_name, address, capacity, contact_number, contact_name,website,locationId } =
+        const reqJson = ({ venue_name, address, capacity, contact_number, contact_name,website,locationId  } =
             req.body);
             // location id not exist then
             if(!locationId){

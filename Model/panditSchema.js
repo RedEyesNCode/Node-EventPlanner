@@ -1,35 +1,36 @@
+const { name } = require("ejs");
 const mongoose = require("mongoose");
 
-const photoVideoSchema = new mongoose.Schema({
-    service_name:{
+const panditSchema = new mongoose.Schema({
+    name:{
         type:String,
         default:""
     },
-    client_name :{
+    address:{
         type:String,
         default:""
     },
-    type_of_coverage :{
+    contact:{
         type:String,
         default:""
     },
-    duration:{
+    description:{
         type:String,
         default:""
     },
-    hourly_rate :{
+    speciality:{
         type:String,
         default:""
     },
-    contact_information:{
+    years_of_experience:{
         type:String,
         default:""
     },
-    event_id: {
+    event_id :{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Megma-Event"
-    },
-      
+    }
 })
 
-module.exports = mongoose.model("Photo-Video",photoVideoSchema)
+
+module.exports = mongoose.model("Megma-Pandit", panditSchema)

@@ -1,21 +1,24 @@
-const mongoose= require("mongoose");
+const mongoose = require("mongoose");
 
 // location Schema Created
-const lacationSchema=new mongoose.Schema({
-    venue_name:{
-        type:String
+const lacationSchema = new mongoose.Schema(
+  {
+    venue_name: {
+      type: String,
     },
-    address:{
-        type:String
+    address: {
+      type: String,
     },
-    capacity:{
-        type:String,
+    capacity: {
+      type: String,
     },
-    contact_number:String,
-    contact_name:String,
-    website:{
-        type:String
+    contact_number: String,
+    contact_name: String,
+    website: {
+      type: String,
     }
-},{timestamps:true})
+  },
+  { timestamps: true }
+);
 
-module.exports=mongoose.model('location',lacationSchema)
+module.exports = mongoose.model("location", lacationSchema);

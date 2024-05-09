@@ -131,7 +131,7 @@ exports.Searchvenue = async (req, res) => {
     if (venue_address) {
       searchQuery.venue_address = { $regex: new RegExp(venue_address, "i") };
     }
-    const venue = await venueSchema.find(searchQuery);
+    const venue = await venueSchema.find(searchQuery).populate("event_id");
     // if venue length is 0 then show error
     if (venue.length === 0) {
       return res.status(200).json({

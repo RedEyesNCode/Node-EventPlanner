@@ -175,7 +175,7 @@ exports.SearchDj = async (req, res) => {
     }
 
     // Find Serched data from Schema
-    const Dj = await DjBandSchema.find(searchQuery);
+    const Dj = await DjBandSchema.find(searchQuery).populate("event_id");
 
     // if Dj length is zero then Show Error
     if (Dj.length === 0) {
@@ -204,7 +204,7 @@ exports.SearchDj = async (req, res) => {
 exports.getAllDj = async (req, res) => {
   try {
     // Find all Dj and Band data
-    const Dj = await DjBandSchema.find({});
+    const Dj = await DjBandSchema.find().populate("event_id");
     // if Dj length is zero then Show Error
     if (Dj.length === 0) {
       return res.status(200).json({

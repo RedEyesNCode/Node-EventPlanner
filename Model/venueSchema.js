@@ -36,10 +36,10 @@ const venueSchema= new mongoose.Schema({
     security_needs:{
         type:String
     },
-    event_id:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Megma-Event"
-    }
+    event_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Megma-Event"
+    },
     
 },{timestamps:true})
 

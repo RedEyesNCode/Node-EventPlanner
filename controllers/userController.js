@@ -158,3 +158,61 @@ exports.getAllUserEvents = async (req, res) => {
   }
 };
 
+exports.getAllEventsByCategory = async (req, res) => {
+  try {
+    const { userId, categoryName } = req.body;
+
+    // Find the user by ID and populate the events and category fields
+    const user = await userSchema
+      .findById(userId)
+      .populate({
+        path: 'events',
+        populate: {
+          path: 'category_id',
+          model: 'Categories',
+        },
+      });
+
+    // Filter events based on the category name
+    const filteredEvents = user.events.filter(event => event.category_id.categories_name === categoryName);
+
+    res.status(200).json({
+      status: "Success",
+      code: 200,
+      message: "Filtered Events",
+      data: filteredEvents,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "Failed",
+      code: 500,
+      message: error.message,
+    });
+  }
+};
+
+exports.getUserEventsByName = async (req, res) => {
+  try {
+    const { userId, eventName } = req.body;
+
+    // Find the user by ID and retrieve only the events
+    const user = await userSchema.findById(userId).populate('events');
+
+    // Filter events based on the event name
+    const filteredEvents = user.events.filter(event => event.event_name.includes(eventName)); 
+
+    res.status(200).json({
+      status: "Success",
+      code: 200,
+      message: "Filtered Events by Name",
+      data: filteredEvents,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "Failed",
+      code: 500,
+      message: error.message,
+    });
+  }
+};
+

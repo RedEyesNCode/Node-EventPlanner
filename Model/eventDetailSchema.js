@@ -47,10 +47,10 @@ const eventDetailSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    eventId: {
+    event_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Megma-Event",
-    },
+      ref: "Megma-Event"
+  },
   },
   { timestamps: true }
 );

@@ -33,7 +33,7 @@ exports.deleteDecoration = async (req, res) => {
 
 exports.getAllDecoration = async (req, res) => {
   try {
-    const decorations = await decorationSchema.find();
+    const decorations = await decorationSchema.find().populate("event_id");
     res.status(200).json({
       status: "success",
       code: 200,

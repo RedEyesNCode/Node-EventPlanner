@@ -34,7 +34,11 @@ const decoationSchema= new mongoose.Schema({
         type:String,
         default:""
     },
-    image : []
+    image : [],
+    event_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Megma-Event"
+    },
 
 },{timestamps:true})
 

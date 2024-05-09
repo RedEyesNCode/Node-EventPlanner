@@ -56,7 +56,7 @@ exports.createmakeup = async (req, res) => {
   
   exports.getAllmakeup = async (req, res) => {
       try {
-        const allmakeup = await makeupSchema.find();
+        const allmakeup = await makeupSchema.find().populate("event_id");
         res
           .status(200)
           .json({

@@ -51,7 +51,7 @@ exports.updateVarmala = async (req, res) => {
 
 exports.getAllVarmala = async (req, res) => {
   try {
-    const allvarmala = await varmalaSchema.find();
+    const allvarmala = await varmalaSchema.find().populate("event_id");
     res.status(200).json({
       status: "success",
       code: 200,
