@@ -81,7 +81,7 @@ exports.login = async (req, res) => {
       data: userFound,
     });
   } catch (error) {
-    res.status(500).json({ status: "Failed", code: 500, message: error.message });
+    res.status(200).json({ status: "Failed", code: 500, message: error.message });
   }
 };
 
