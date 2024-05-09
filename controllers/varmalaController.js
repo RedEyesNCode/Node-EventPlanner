@@ -52,6 +52,13 @@ exports.updateVarmala = async (req, res) => {
 exports.getAllVarmala = async (req, res) => {
   try {
     const allvarmala = await varmalaSchema.find().populate("event_id");
+    if (allvarmala.length === 0) {
+      return res.status(200).json({
+        status: "Failed",
+        code: 404,
+        message: "No varmala as event found",
+      });
+    }
     res.status(200).json({
       status: "success",
       code: 200,

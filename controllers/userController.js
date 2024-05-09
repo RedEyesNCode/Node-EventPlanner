@@ -45,27 +45,46 @@ exports.Signup = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    // saving destructure data to reqjson
-    const reqJson = ({ email, password, PhoneNumber } = req.body);
-    // login the user if exist or not
-    const loginUser = await userSchema
+    // Destructuring data from req.body
+    const { email, password, PhoneNumber } = req.body;
+
+    // Login the user if exists
+    const userFound = await userSchema
       .findOne({
-        $or: [{ email: reqJson.email }, { PhoneNumber: reqJson.PhoneNumber }],
-        password: reqJson.password,
+        $or: [{ email }, { PhoneNumber }]
       })
       .exec();
+
+    // If user not found
+    if (!userFound) {
+      return res.status(200).json({
+        status: "Failed",
+        code: 200,
+        message: "User not found with these details"
+      });
+    }
+
+    // Comparing passwords
+    if (userFound.password !== password) {
+      return res.status(200).json({
+        status: "Failed",
+        code: 200,
+        message: "Password is incorrect"
+      });
+    }
+
+    // If user and password match
     res.status(200).json({
       status: "Success",
       code: 200,
       message: "User Logged in !",
-      data: loginUser,
+      data: userFound,
     });
   } catch (error) {
-    res
-      .status(200)
-      .json({ status: "Failed", code: 500, message: error.message });
+    res.status(500).json({ status: "Failed", code: 500, message: error.message });
   }
 };
+
 exports.logout = async (req, res) => {
   try {
     res.status(200).json({
@@ -125,6 +144,13 @@ exports.DeleteUser = async (req, res) => {
 exports.getAllUser = async (req, res) => {
   try {
     const users = await userSchema.find();
+    if (users.length === 0) {
+      return res.status(200).json({
+        status: "Failed",
+        code: 404,
+        message: "No user found",
+      });
+    }
     res.status(200).json({
       status: "Success",
       code: 200,
@@ -143,6 +169,20 @@ exports.getAllUser = async (req, res) => {
 exports.getAllUserEvents = async (req, res) => {
   try {
     const user = await userSchema.findById(req.body.userId).populate("events");
+    if (!user) {
+      return res.status(200).json({
+        status: "Failed",
+        code: 404,
+        message: "User not found",
+      });
+    }
+    if(user.events.length === 0) {
+      return res.status(200).json({
+        status: "Failed",
+        code: 404,
+        message: "No event found",
+      });
+    }
     res.status(200).json({
       status: "Success",
       code: 200,
@@ -150,7 +190,7 @@ exports.getAllUserEvents = async (req, res) => {
       data: user, // Accessing the populated events directly from the user object
     });
   } catch (error) {
-    res.status(500).json({ // Correcting status code to 500 for server error
+    res.status(200).json({ // Correcting status code to 500 for server error
       status: "Failed",
       code: 500,
       message: error.message,
@@ -176,6 +216,14 @@ exports.getAllEventsByCategory = async (req, res) => {
     // Filter events based on the category name
     const filteredEvents = user.events.filter(event => event.category_id.categories_name === categoryName);
 
+    if (filteredEvents.length === 0) {
+      return res.status(200).json({
+        status: "Failed",
+        code: 404,
+        message: "No event found",
+      });
+    }
+
     res.status(200).json({
       status: "Success",
       code: 200,
@@ -183,13 +231,13 @@ exports.getAllEventsByCategory = async (req, res) => {
       data: filteredEvents,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(200).json({
       status: "Failed",
       code: 500,
       message: error.message,
     });
   }
-};
+};//testing pending
 
 exports.getUserEventsByName = async (req, res) => {
   try {
@@ -201,6 +249,14 @@ exports.getUserEventsByName = async (req, res) => {
     // Filter events based on the event name
     const filteredEvents = user.events.filter(event => event.event_name.includes(eventName)); 
 
+    if (filteredEvents.length === 0) {
+      return res.status(200).json({
+        status: "Failed",
+        code: 404,
+        message: "No event found",
+      });
+    }
+
     res.status(200).json({
       status: "Success",
       code: 200,
@@ -208,7 +264,7 @@ exports.getUserEventsByName = async (req, res) => {
       data: filteredEvents,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(200).json({
       status: "Failed",
       code: 500,
       message: error.message,

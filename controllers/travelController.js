@@ -57,6 +57,15 @@ exports.updateTravel = async (req, res) => {
 exports.getAllTravel = async (req, res) => {
     try {
       const alltravel = await travelSchema.find().populate("event_id");
+      if (alltravel.length === 0) {
+        
+        return res.status(200).json({
+          status: "Failed",
+          code: 404,
+          message: "No Travel found",
+        });
+      }
+
       res
         .status(200)
         .json({

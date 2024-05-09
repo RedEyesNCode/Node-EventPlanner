@@ -57,6 +57,14 @@ exports.createmakeup = async (req, res) => {
   exports.getAllmakeup = async (req, res) => {
       try {
         const allmakeup = await makeupSchema.find().populate("event_id");
+
+        if (allmakeup.length === 0) {
+          return res.status(200).json({
+            status: "Failed",
+            code: 400,
+            message: "No Makeup-Artist Found",
+          });
+        }
         res
           .status(200)
           .json({

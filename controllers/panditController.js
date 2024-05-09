@@ -14,6 +14,9 @@ exports.createPandit = async (req, res) => {
 exports.getPandit = async (req, res) => {
     try {
         const pandit = await panditSchema.find();
+        if (pandit.length === 0) {
+            return res.status(200).json({status:"Failed", code:404, message: "No Pandit found"});
+        }
         res.status(200).json({status:"Success", code:200, message: "Pandit Fetched Succesfully", data: pandit});
     } catch (error) {
         res.status(200).json({status:"Failed", code:500, message: error.message});

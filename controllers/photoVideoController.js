@@ -52,6 +52,14 @@ exports.createPhotoVideo = async (req, res) => {
   exports.getAllPhotoVideo = async (req, res) => {
     try {
       const allphotoVideo = await photoVideoSchema.find().populate("event_id");
+      if (allphotoVideo.length === 0) {
+        return res.status(200).json({
+          status: "Failed",
+          code: 404,
+          message: "No Photo-Video found",
+        });
+      }
+
       res.status(200).json({
         status: "success",
         code: 200,

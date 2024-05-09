@@ -22,11 +22,18 @@ exports.createTentHouse = async (req, res) => {
 exports.getAllTentHouse = async (req, res) => {
   try {
     const tentHouses = await tentHouseSchema.find().populate("event_id");
+    if (tentHouses.length === 0) {
+      return res.status(200).json({
+        status: "Failed",
+        code: 404,
+        message: "No Tent House found",
+      });
+    }
     res.status(200).json({
       status: "Success",
       code: 200,
       message: "Tent House Found Succesfully",
-      data: tentHouses.length > 0 ? tentHouses : "No Tent House Found",
+      data:tentHouses,
     });
   } catch (error) {
     res.status(200).json({

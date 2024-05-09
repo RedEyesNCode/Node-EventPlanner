@@ -4,28 +4,55 @@ const CategoriesSchema = require("../Model/categoriesSchema");
 
 exports.CreateEvent = async (req, res) => {
   try {
-    const newEvent = new eventSchema(req.body); //new event
-    const categorie = await CategoriesSchema.findById(req.body.category_id); //finding category
-    const user = await userSchema.findById(req.body.userId); //finding user
-    user.events.push(newEvent._id); //pushing event id in user schema
-    await user.save(); //saving user
-    categorie.events.push(newEvent._id); //pushing event id in categories schema
-    await categorie.save(); //saving categories
+    const newEvent = new eventSchema(req.body); // New event
+    const categoryId = req.body.category_id;
+    const userId = req.body.userId;
+    console.log("Category ID:", categoryId);
+    console.log("User ID:", userId);
+
+    const categorie = await CategoriesSchema.findById(categoryId); // Finding category
+    const user = await userSchema.findById(userId); // Finding user
+    console.log("Category:", categorie);
+    console.log("User:", user);
+
+    // Handling if category or user is not found
+    if (!categorie) {
+      return res.status(200).json({
+        status: "Failed",
+        code: 404,
+        message: "Category not found"
+      });
+    }
+
+    if (!user) {
+      return res.status(200).json({
+        status: "Failed",
+        code: 404,
+        message: "User not found"
+      });
+    }
+
+    user.events.push(newEvent._id); // Pushing event id in user schema
+    await user.save(); // Saving user
+    categorie.events.push(newEvent._id); // Pushing event id in categories schema
+    await categorie.save(); // Saving categories
+
     const savedEvent = await newEvent.save();
     res.status(200).json({
       status: "Success",
       code: 200,
-      message: " Event Created Succesfully",
+      message: "Event Created Successfully",
       data: savedEvent,
     });
   } catch (error) {
     res.status(200).json({
       status: "Failed",
-      Code: 500,
+      code: 500,
       message: error.message,
     });
   }
 };
+
 
 exports.DeleteEvent = async (req, res) => {
   try {
@@ -142,6 +169,15 @@ exports.Allevent = async (req, res) => {
       .populate("eventDetail_id")
       .populate("booking_details")
       .exec();
+    // if not having event then show error
+    if (events.length === 0) {
+      return res.status(200).json({
+        status: "Failed",
+        code: 404,
+        message: "No event found",
+      });
+    }
+
     res.status(200).json({
       status: "Success",
       code: 200,
@@ -167,6 +203,14 @@ exports.getEventByCategoryId = async (req, res) => {
       .populate("category_id")
       .populate("booking_details")
       .exec();
+      if (events.length === 0) {
+        return res.status(200).json({
+          status: "Failed",
+          code: 404,
+          message: "No event found",
+        });
+      }
+
     res.status(200).json({
       status: "Success",
       code: 200,
