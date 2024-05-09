@@ -42,6 +42,7 @@ build/Release
 node_modules/
 jspm_packages/
 readme.txt
+eventplanner-9143c-firebase-adminsdk-0xogw-27498ab52f.json
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/

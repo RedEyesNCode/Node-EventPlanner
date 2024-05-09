@@ -20,7 +20,7 @@ exports.CreateEvent = async (req, res) => {
       return res.status(200).json({
         status: "Failed",
         code: 404,
-        message: "Category not found"
+        message: "Category not found",
       });
     }
 
@@ -28,7 +28,7 @@ exports.CreateEvent = async (req, res) => {
       return res.status(200).json({
         status: "Failed",
         code: 404,
-        message: "User not found"
+        message: "User not found",
       });
     }
 
@@ -52,7 +52,6 @@ exports.CreateEvent = async (req, res) => {
     });
   }
 };
-
 
 exports.DeleteEvent = async (req, res) => {
   try {
@@ -203,13 +202,13 @@ exports.getEventByCategoryId = async (req, res) => {
       .populate("category_id")
       .populate("booking_details")
       .exec();
-      if (events.length === 0) {
-        return res.status(200).json({
-          status: "Failed",
-          code: 404,
-          message: "No event found",
-        });
-      }
+    if (events.length === 0) {
+      return res.status(200).json({
+        status: "Failed",
+        code: 404,
+        message: "No event found",
+      });
+    }
 
     res.status(200).json({
       status: "Success",
@@ -224,4 +223,36 @@ exports.getEventByCategoryId = async (req, res) => {
       message: error.message,
     });
   }
-}
+};
+
+exports.getEventById = async (req, res) => {
+  try {
+    const event = await eventSchema
+      .findById(req.body.eventId)
+      .populate("userId")
+      .populate("location_id")
+      .populate("category_id")
+      .populate("eventDetail_id")
+      .populate("booking_details")
+      .exec();
+    if (!event) {
+      return res.status(200).json({
+        status: "Failed",
+        code: 404,
+        message: "Event not found",
+      });
+    }
+    res.status(200).json({
+      status: "Success",
+      code: 200,
+      message: "Event retrieved successfully",
+      data: event,
+    });
+  } catch (error) {
+    res.status(200).json({
+      status: "Failed",
+      code: 500,
+      message: error.message,
+    });
+  }
+};

@@ -4,7 +4,9 @@ const {
   DeleteEvent,
   UpdateEvent,
   Allevent,
-  getEventByCategoryId
+  getEventByCategoryId,
+  getEventById
+
 } = require("../controllers/eventController");
 
 var router = express.Router();
@@ -23,6 +25,8 @@ router.post("/updateevent", UpdateEvent);
 // get /getallevents
 
 router.get("/getallevents", Allevent);
+
+router.get("/get-event-by-id", getEventById);
 
 router.post("/get-event-by-category",getEventByCategoryId)
 
