@@ -21,10 +21,19 @@ const cateringSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
+    images :[{
+        type: String,
+    }],
     event_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Event"
     }
 })
-
+cateringSchema.pre('save', function(next) {
+    if (this.images.length === 0) {
+      this.images.push("https://www.shutterstock.com/image-photo/catering-eat-food-wedding-600nw-218687860.jpg");
+    }
+    next();
+  });
+  
 module.exports = mongoose.model("Catering", cateringSchema);

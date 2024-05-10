@@ -56,6 +56,18 @@ const staticData = {
       description: "This covers events for VENUE",
     },
   ],
+  weddingDress: [
+    {
+      categories_name: "WEDDING DRESS",
+      description: "This covers events for WEDDING DRESS",
+    },
+  ],
+  Catering: [
+    {
+      categories_name: "CATERING",
+      description: "This covers events for CATERING",
+    },
+  ]
 };
 const staticDataForLoaction = {
   Bhopal: [

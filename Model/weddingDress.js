@@ -45,10 +45,21 @@ const weddingDressSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
+    images : [{
+        type : String
+    }],
     event_id: {
         type:mongoose.Schema.Types.ObjectId,
         ref:"Megma-Event"
     }
 })
+
+weddingDressSchema.pre('save', function(next) {
+    if (this.images.length === 0) {
+      this.images.push("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTKSUfqt4CtTfG5bnqwEN-9Sx6gsSllafcQQ&s");
+    }
+    next();
+  });
+  
 
 module.exports = mongoose.model("Wedding-Dress", weddingDressSchema)

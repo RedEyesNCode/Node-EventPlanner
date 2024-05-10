@@ -103,7 +103,7 @@ exports.uploadTentImage = async (req, res) => {
       };
     }
     try {
-      const tent = await tentHouseSchema.findById(req.body.tentId);
+      const tent = await tentHouseSchema.findById(req.body.tenthouseId);
       if (!tent) {
         res.status(404).json({ status: false, error: "Event not found" });
         return;

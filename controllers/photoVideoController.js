@@ -84,7 +84,7 @@ exports.createPhotoVideo = async (req, res) => {
       };
     }
     try {   
-      const photoVideo = await photoVideoSchema.findById(req.body.photoVideoId);
+      const photoVideo = await photoVideoSchema.findById(req.body.photovideoId);
       if (!photoVideo) {
         res.status(200).json({ status: "Failed", error: "Photo-video not found" });
         return;

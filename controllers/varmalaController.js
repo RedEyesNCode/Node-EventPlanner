@@ -69,3 +69,41 @@ exports.getAllVarmala = async (req, res) => {
     res.status(200).json({ status: "Failed", code: 500, error: error.message });
   }
 };
+
+exports.uploadVarmalaImage =  async (req, res) => {
+  if (!req.file) {
+    res.status(200).json({ status: "Failed", error: "please upload a file" });
+    return;
+  }
+  let data = {};
+  if (req.file) {
+    data = {
+      url: req.file.location,
+      type: req.file.mimetype,
+    };
+  }
+  try {
+    const varmala = await varmalaSchema.findById(req.body.varmalaId);
+    if (!varmala) {
+      res.status(200).json({ status: "Failed", error: "Varmala Dress not found" });
+      return;
+    }
+    varmala.images.push(req.file.location);
+    if (
+      varmala.images.length > 0 &&
+      varmala.images[0] ===
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR_ZHUeYI7UGET-iN2R5LS9hzGMkwDntu-Uw&s"
+    ) {
+      varmala.images.splice(0, 1);
+    }
+    await varmala.save();
+    res.status(200).json({
+      status: "Success",
+      code: 200,
+      message: "Varmala Image Uploaded Succesfully",
+      data: data,
+    });
+  } catch (error) {
+    res.status(200).json({ status: "Failed", code: 500, error: error.message });
+  }
+};
