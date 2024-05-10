@@ -1,4 +1,4 @@
-const tentHouseSchema = require("../Model/tentHouseSchema");
+const tentHouseSchema = require("../Model/tentHouseSchema");//photo video #//tent house# // decoration-null# // pandit# // wedding dress#$ //Cater(create nai chali)
 
 exports.createTentHouse = async (req, res) => {
   try {

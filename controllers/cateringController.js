@@ -4,7 +4,7 @@ exports.createCatering = async (req, res) => {
     try {
         const newCatering = await cateringSchema(req.body);
         await newCatering.save();
-        res.status(201).json({
+        res.status(200).json({
             Status: "Success",
             code: 200,
             message: "Catering Created Succesfully",

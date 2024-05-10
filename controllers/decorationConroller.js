@@ -85,9 +85,10 @@ exports.uploadDecorationImage =  async (req, res) => {
     };
   }
   try {
+    console.log(req.body);
     const decoration = await decorationSchema.findById(req.body.decorationId);
     if (!decoration) {
-      res.status(200).json({ status: "Failed", error: "Tent House not found" });
+      res.status(200).json({ status: "Failed", code : 404,message: "Decoration not found" });
       return;
     }
     decoration.images.push(req.file.location);
@@ -102,7 +103,7 @@ exports.uploadDecorationImage =  async (req, res) => {
     res.status(200).json({
       status: "Success",
       code: 200,
-      message: "Tent House Image Uploaded Succesfully",
+      message: "Decoration Image Uploaded Succesfully",
       data: data,
     });
   } catch (error) {

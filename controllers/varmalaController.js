@@ -70,7 +70,7 @@ exports.getAllVarmala = async (req, res) => {
   }
 };
 
-exports.uploadVarmalaImage =  async (req, res) => {
+exports.uploadVarmalaImage = async (req, res) => {
   if (!req.file) {
     res.status(200).json({ status: "Failed", error: "please upload a file" });
     return;
@@ -85,14 +85,16 @@ exports.uploadVarmalaImage =  async (req, res) => {
   try {
     const varmala = await varmalaSchema.findById(req.body.varmalaId);
     if (!varmala) {
-      res.status(200).json({ status: "Failed", error: "Varmala Dress not found" });
+      res
+        .status(200)
+        .json({ status: "Failed", error: "Varmala Dress not found" });
       return;
     }
     varmala.images.push(req.file.location);
     if (
       varmala.images.length > 0 &&
       varmala.images[0] ===
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQR_ZHUeYI7UGET-iN2R5LS9hzGMkwDntu-Uw&s"
+        "https://onetouchmoments.co.in/wp-content/uploads/2024/05/newlyweds.png"
     ) {
       varmala.images.splice(0, 1);
     }

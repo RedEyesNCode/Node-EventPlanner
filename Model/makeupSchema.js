@@ -54,7 +54,7 @@ const makeupSchema = new mongoose.Schema({
 makeupSchema.pre("save", function (next) {
   if (this.images.length === 0) {
     this.images.push(
-      "https://content.jdmagicbox.com/comp/mumbai/w8/022pxx22.xx22.200313161453.w5w8/catalogue/creative-makeup-artist-mumbai-1xka2nvity.jpg"
+      "https://onetouchmoments.co.in/wp-content/uploads/2024/05/makeup-cosmetics-palette-brushes-white-background.png"
     );
   }
   next();
