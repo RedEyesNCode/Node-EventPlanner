@@ -71,3 +71,40 @@ exports.createPhotoVideo = async (req, res) => {
     }
   };
   
+  exports.uploadPhotoVideoImage = async (req, res) => {
+    if (!req.file) {
+      res.status(200).json({ status: "Failed", error: "Please upload a file" });
+      return;
+    }
+    let data = {};
+    if (req.file) {
+      data = {
+        url: req.file.location,
+        type: req.file.mimetype,
+      };
+    }
+    try {   
+      const photoVideo = await photoVideoSchema.findById(req.body.photoVideoId);
+      if (!photoVideo) {
+        res.status(200).json({ status: "Failed", error: "Photo-video not found" });
+        return;
+      }
+      photoVideo.images.push(req.file.location);
+      if (
+        photoVideo.images.length > 0 &&
+        photoVideo.images[0] ===
+        "https://www.adorama.com/alc/wp-content/uploads/2021/11/Types-of-Shots-for-Filmmakers-e1641493485327-1024x590.jpg"
+      ) {
+        photoVideo.images.splice(0, 1);
+      }
+      await photoVideo.save();
+      res.status(200).json({
+        status: "Success",
+        code: 200,
+        message: "Photo-video Image Uploaded Succesfully",
+        data: data,
+      });
+    } catch (error) {
+      res.status(200).json({ status: "Failed", code: 500, error: error.message });
+    }
+  };

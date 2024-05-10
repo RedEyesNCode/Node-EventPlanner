@@ -25,11 +25,21 @@ const panditSchema = new mongoose.Schema({
         type:String,
         default:""
     },
+    images:[{
+        type:String
+    }],
     event_id :{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Megma-Event"
     }
 })
-
+panditSchema.pre("save", function (next) {
+    if (this.images.length === 0) {
+      this.images.push(
+        "https://cdn.vectorstock.com/i/1000v/84/03/indian-pandit-cartoon-vector-35888403.jpg"
+      );
+    }
+    next();
+  });
 
 module.exports = mongoose.model("Megma-Pandit", panditSchema)

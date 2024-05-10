@@ -37,10 +37,23 @@ const travelSchema = new mongoose.Schema({
         type : String,
         default : ''
     },
+    images :[{
+        type : String
+    }],
     event_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Megma-Event"
     },
 })
+
+travelSchema.pre("save", function (next) {
+    if (this.images.length === 0) {
+      this.images.push(
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK4CYRZ8ywvB2LlPKMlDs4mj2uEiFPLZPwNw&s"
+      );
+    }
+    next();
+  });
+
 
 module.exports = mongoose.model('Travel', travelSchema);

@@ -77,3 +77,41 @@ exports.createmakeup = async (req, res) => {
         res.status(200).json({ status: "Failed", code: 500, error: error.message });
       }
     }
+
+    exports.uploadMakeupImage =  async (req, res) => {
+      if (!req.file) {
+        res.status(200).json({ status: "Failed", error: "Please upload a file" });
+        return;
+      }
+      let data = {};
+      if (req.file) {
+        data = {
+          url: req.file.location,
+          type: req.file.mimetype,
+        };
+      }
+      try {
+        const makeup = await makeupSchema.findById(req.body.makeupId);
+        if (!makeup) {
+          res.status(200).json({ status: "Failed", error: "Makeup not found" });
+          return;
+        }
+        makeup.images.push(req.file.location);
+        if (
+          makeup.images.length > 0 &&
+          makeup.images[0] ===
+          "https://content.jdmagicbox.com/comp/mumbai/w8/022pxx22.xx22.200313161453.w5w8/catalogue/creative-makeup-artist-mumbai-1xka2nvity.jpg"
+        ) {
+          makeup.images.splice(0, 1);
+        }
+        await makeup.save();
+        res.status(200).json({
+          status: "Success",
+          code: 200,
+          message: "Makeup Image Uploaded Succesfully",
+          data: data,
+        });
+      } catch (error) {
+        res.status(200).json({ status: "Failed", code: 500, error: error.message });
+      }
+    };

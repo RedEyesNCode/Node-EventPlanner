@@ -78,3 +78,41 @@ exports.getAllTravel = async (req, res) => {
       res.status(200).json({ status: "Failed", code: 500, error: error.message });
     }
   }
+
+  exports.uploadTravelImage = async (req, res) => {
+    if (!req.file) {
+      res.status(200).json({ status: "Failed", error: "Please upload a file" });
+      return;
+    }
+    let data = {};
+    if (req.file) {
+      data = {
+        url: req.file.location,
+        type: req.file.mimetype,
+      };
+    }
+    try {   
+      const travel = await travelSchema.findById(req.body.travelId);
+      if (!travel) {
+        res.status(200).json({ status: "Failed", error: "Travel not found" });
+        return;
+      }
+      travel.images.push(req.file.location);
+      if (
+        travel.images.length > 0 &&
+        travel.images[0] ===
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK4CYRZ8ywvB2LlPKMlDs4mj2uEiFPLZPwNw&s"
+      ) {
+        travel.images.splice(0, 1);
+      }
+      await travel.save();
+      res.status(200).json({
+        status: "Success",
+        code: 200,
+        message: "Travel Image Uploaded Succesfully",
+        data: data,
+      });
+    } catch (error) {
+      res.status(200).json({ status: "Failed", code: 500, error: error.message });
+    }
+  };

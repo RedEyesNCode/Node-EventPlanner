@@ -32,3 +32,41 @@ exports.deletePandit = async (req, res) => {
         res.status(200).json({status:"Failed", code:500, message: error.message});
     }
 }
+
+exports.uploadPanditImage =  async (req, res) => {
+    if (!req.file) {
+      res.status(200).json({ status: "Failed", error: "Please upload a file" });
+      return;
+    }
+    let data = {};
+    if (req.file) {
+      data = {
+        url: req.file.location,
+        type: req.file.mimetype,
+      };
+    }
+    try {
+      const pandit = await panditSchema.findById(req.body.panditId);
+      if (!pandit) {
+        res.status(200).json({ status: "Failed", error: "Pandit not found" });
+        return;
+      }
+      pandit.images.push(req.file.location);
+      if (
+        pandit.images.length > 0 &&
+        pandit.images[0] ===
+        "https://cdn.vectorstock.com/i/1000v/84/03/indian-pandit-cartoon-vector-35888403.jpg"
+      ) {
+        pandit.images.splice(0, 1);
+      }
+      await pandit.save();
+      res.status(200).json({
+        status: "Success",
+        code: 200,
+        message: "Pandit Image Uploaded Succesfully",
+        data: data,
+      });
+    } catch (error) {
+      res.status(200).json({ status: "Failed", code: 500, error: error.message });
+    }
+  };
