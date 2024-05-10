@@ -1,10 +1,12 @@
 const express = require("express");
+const uploadMiddleWare = require("../utils/fileupload");
 const {
   Createvenue,
   Updatevenue,
   Searchvenue,
   deleteVenue,
-  getAllVenue
+  getAllVenue,
+  uploadVenueImage,
 } = require("../controllers/venueController");
 
 const router = express.Router();
@@ -20,6 +22,12 @@ router.get("/get-all-venue", getAllVenue);
 router.post("/update-venue", Updatevenue);
 
 // post /searchvenue
+
+router.post(
+  "/upload-venue-image",
+  uploadMiddleWare.single("file"),
+  uploadVenueImage
+);
 
 router.post("/search-venue", Searchvenue);
 

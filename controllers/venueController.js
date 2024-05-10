@@ -197,4 +197,43 @@ exports.getAllVenue = async (req, res) => {
       message: "Venue Not Found",
     });
   }
-}
+};
+
+exports.uploadVenueImage = async (req, res) => {
+  if (!req.file) {
+    res.status(200).json({ status: "Failed", error: "please upload a file" });
+    return;
+  }
+  let data = {};
+  if (req.file) {
+    data = {
+      url: req.file.location,
+      type: req.file.mimetype,
+    };
+  }
+  try {
+    const venue = await venueSchema.findById(req.body.venueId);
+    if (!venue) {
+      res.status(200).json({ status: "Failed", error: "venue not found" });
+      return;
+    }
+    venue.images.push(req.file.location);
+    if (
+      venue.images.length > 0 &&
+      venue.images[0] ===
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFF-AaWnJuTH3jFUuVx8q4_ULlhAtm0jl1Zw&s"
+    ) {
+      venue.images.splice(0, 1);
+      console.log("shifted");
+    }
+    await venue.save();
+    res.status(200).json({
+      status: "Success",
+      code: 200,
+      message: "Venue Image Uploaded Succesfully",
+      data: data,
+    });
+  } catch (error) {
+    res.status(200).json({ status: "Failed", code: 500, error: error.message });
+  }
+};
