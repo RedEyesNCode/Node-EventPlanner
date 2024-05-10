@@ -38,7 +38,7 @@ const photoVideoSchema = new mongoose.Schema({
 photoVideoSchema.pre("save", function (next) {
     if (this.images.length === 0) {
       this.images.push(
-        "https://www.adorama.com/alc/wp-content/uploads/2021/11/Types-of-Shots-for-Filmmakers-e1641493485327-1024x590.jpg"
+        "https://onetouchmoments.co.in/wp-content/uploads/2024/05/multimedia.png"
       );
     }
     next();

@@ -34,6 +34,15 @@ exports.deleteDecoration = async (req, res) => {
 exports.getAllDecoration = async (req, res) => {
   try {
     const decorations = await decorationSchema.find().populate("event_id");
+    if (decorations.length === 0) {
+      res.status(200).json({
+        status: "Failed",
+        code: 404,
+        message: "No Decoration as event found",
+      });
+      return;
+    }
+
     res.status(200).json({
       status: "success",
       code: 200,
@@ -63,35 +72,40 @@ exports.updateDecoration = async (req, res) => {
   }
 };
 
-exports.uploadDecorationImage = async (req, res) => {
-    if (!req.file) {
-      res.status(403).json({ status: false, error: "please upload a file" });
+exports.uploadDecorationImage =  async (req, res) => {
+  if (!req.file) {
+    res.status(200).json({ status: "Failed", error: "please upload a file" });
+    return;
+  }
+  let data = {};
+  if (req.file) {
+    data = {
+      url: req.file.location,
+      type: req.file.mimetype,
+    };
+  }
+  try {
+    const decoration = await decorationSchema.findById(req.body.decorationId);
+    if (!decoration) {
+      res.status(200).json({ status: "Failed", error: "Tent House not found" });
       return;
     }
-    let data = {};
-    if (req.file) {
-      data = {
-        url: req.file.location,
-        type: req.file.mimetype,
-      };
+    decoration.images.push(req.file.location);
+    if (
+      decoration.images.length > 0 &&
+      decoration.images[0] ===
+      "https://onetouchmoments.co.in/wp-content/uploads/2024/05/wedding-arch.png"
+    ) {
+      decoration.images.splice(0, 1);
     }
-    try {
-      const decoration = await decorationSchema.findById(req.body.decorationId);
-      if (!decoration) {
-        res.status(404).json({ status: false, error: "Decoration not found" });
-        return;
-      }
-      decoration.image.push(req.file.location);
-      await decoration.save();
-      res.status(200).json({
-        status: "Success",
-        code: 200,
-        message: "Decoration Image Uploaded Succesfully",
-        data: data,
-      });
-    } catch (error) {
-      res
-        .status(200)
-        .json({ status: "Failed", code: 500, error: error.message });
-    }
+    await decoration.save();
+    res.status(200).json({
+      status: "Success",
+      code: 200,
+      message: "Tent House Image Uploaded Succesfully",
+      data: data,
+    });
+  } catch (error) {
+    res.status(200).json({ status: "Failed", code: 500, error: error.message });
+  }
 };

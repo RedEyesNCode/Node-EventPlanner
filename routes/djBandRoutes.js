@@ -33,7 +33,7 @@ router.post(
     uploadMiddleWare.single("file"),
     async (req, res) => {
       if (!req.file) {
-        res.status(200).json({ status: false, error: "please upload a file" });
+        res.status(200).json({ status: "Failed", error: "please upload a file" });
         return;
       }
       let data = {};
@@ -44,19 +44,28 @@ router.post(
         };
       }
       try {
-        const dj = await DjBandSchema.findById(req.body.djId);
-        if (!dj) {
-          res.status(404).json({ status: false, error: "DJ not found" });
+        const djband = await DjBandSchema.findById(req.body.djId);
+        if (!djband) {
+          res.status(200).json({ status: "Failed", error: "DJ-Band not found" });
           return;
         }
-        dj.djBandImageUrl.push(req.file.location);
-        await dj.save();
-        res.send({
+        djband.images.push(req.file.location);
+        if (
+          djband.images.length > 0 &&
+          djband.images[0] ===
+          "https://onetouchmoments.co.in/wp-content/uploads/2024/05/parade-e1714669744336.png"
+        ) {
+          djband.images.splice(0, 1);
+        }
+        await djband.save();
+        res.status(200).json({
+          status: "Success",
+          code: 200,
+          message: "DJ-Band Image Uploaded Succesfully",
           data: data,
-          status: true,
         });
       } catch (error) {
-        res.status(500).json({ status: false, error: error.message });
+        res.status(200).json({ status: "Failed", code: 500, error: error.message });
       }
     }
   );

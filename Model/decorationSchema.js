@@ -34,12 +34,22 @@ const decoationSchema= new mongoose.Schema({
         type:String,
         default:""
     },
-    image : [],
+    images : [{
+        type: String
+    }],
     event_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Megma-Event"
     },
 
 },{timestamps:true})
+
+decoationSchema.pre('save', function(next) {
+    if (this.images.length === 0) {
+      this.images.push("https://onetouchmoments.co.in/wp-content/uploads/2024/05/wedding-arch.png");
+    }
+    next();
+  });
+  
 
 module.exports= mongoose.model("Decoration",decoationSchema);

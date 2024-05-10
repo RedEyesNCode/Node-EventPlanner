@@ -31,7 +31,7 @@ const cateringSchema = new mongoose.Schema({
 })
 cateringSchema.pre('save', function(next) {
     if (this.images.length === 0) {
-      this.images.push("https://www.shutterstock.com/image-photo/catering-eat-food-wedding-600nw-218687860.jpg");
+      this.images.push("https://onetouchmoments.co.in/wp-content/uploads/2024/05/food-cart.png");
     }
     next();
   });

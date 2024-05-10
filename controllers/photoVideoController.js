@@ -93,7 +93,7 @@ exports.createPhotoVideo = async (req, res) => {
       if (
         photoVideo.images.length > 0 &&
         photoVideo.images[0] ===
-        "https://www.adorama.com/alc/wp-content/uploads/2021/11/Types-of-Shots-for-Filmmakers-e1641493485327-1024x590.jpg"
+        "https://onetouchmoments.co.in/wp-content/uploads/2024/05/multimedia.png"
       ) {
         photoVideo.images.splice(0, 1);
       }

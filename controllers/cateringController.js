@@ -91,7 +91,7 @@ exports.uploadgCateringImage =  async (req, res) => {
       if (
         catering.images.length > 0 &&
         catering.images[0] ===
-        "https://www.shutterstock.com/image-photo/catering-eat-food-wedding-600nw-218687860.jpg"
+        "https://onetouchmoments.co.in/wp-content/uploads/2024/05/food-cart.png"
       ) {
         catering.images.splice(0, 1);
       }

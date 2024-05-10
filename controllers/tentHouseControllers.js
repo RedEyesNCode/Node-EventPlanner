@@ -90,35 +90,40 @@ exports.updateTentHouse = async (req, res) => {
   }
 };
 
-exports.uploadTentImage = async (req, res) => {
-    if (!req.file) {
-      res.status(403).json({ status: false, error: "please upload a file" });
+exports.uploadTentImage =  async (req, res) => {
+  if (!req.file) {
+    res.status(200).json({ status: "Failed", error: "please upload a file" });
+    return;
+  }
+  let data = {};
+  if (req.file) {
+    data = {
+      url: req.file.location,
+      type: req.file.mimetype,
+    };
+  }
+  try {
+    const tentHouse = await tentHouseSchema.findById(req.body.tenthouseId);
+    if (!tentHouse) {
+      res.status(200).json({ status: "Failed", error: "Tent House not found" });
       return;
     }
-    let data = {};
-    if (req.file) {
-      data = {
-        url: req.file.location,
-        type: req.file.mimetype,
-      };
+    tentHouse.images.push(req.file.location);
+    if (
+      tentHouse.images.length > 0 &&
+      tentHouse.images[0] ===
+      "https://onetouchmoments.co.in/wp-content/uploads/2024/05/tent.png"
+    ) {
+      tentHouse.images.splice(0, 1);
     }
-    try {
-      const tent = await tentHouseSchema.findById(req.body.tenthouseId);
-      if (!tent) {
-        res.status(404).json({ status: false, error: "Event not found" });
-        return;
-      }
-      tent.image.push(req.file.location);
-      await tent.save();
-      res.status(200).json({
-        status: "Success",
-        code: 200,
-        message: "Tent Image Uploaded Succesfully",
-        data: data,
-      });
-    } catch (error) {
-      res
-        .status(200)
-        .json({ status: "Failed", code: 500, error: error.message });
-    }
-  };
+    await tentHouse.save();
+    res.status(200).json({
+      status: "Success",
+      code: 200,
+      message: "Tent House Image Uploaded Succesfully",
+      data: data,
+    });
+  } catch (error) {
+    res.status(200).json({ status: "Failed", code: 500, error: error.message });
+  }
+};

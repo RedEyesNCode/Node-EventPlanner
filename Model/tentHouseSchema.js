@@ -17,7 +17,9 @@ const tentHouseSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  image: [],
+  images: [{
+    type: String,
+  }],
   price: {
     type: String,
     default: '',
@@ -30,6 +32,14 @@ const tentHouseSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Megma-Event"
 },
+});
+
+
+tentHouseSchema.pre('save', function(next) {
+  if (this.images.length === 0) {
+    this.images.push("https://onetouchmoments.co.in/wp-content/uploads/2024/05/tent.png");
+  }
+  next();
 });
 
 module.exports = mongoose.model("tentHouse", tentHouseSchema);

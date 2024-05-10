@@ -1,50 +1,58 @@
-const mongoose= require("mongoose");
+const mongoose = require("mongoose");
 
 // DJ BAND SCHEMA
-const DjBandSchema=new mongoose.Schema({
-    dj_band_name:{
-        type:String
+const DjBandSchema = new mongoose.Schema(
+  {
+    dj_band_name: {
+      type: String,
     },
-    members:{
-        type:String
+    members: {
+      type: String,
     },
-    genre:{
-        type:String
+    genre: {
+      type: String,
     },
-    description:{
-        type:String
+    description: {
+      type: String,
     },
-    availability:{
-        type:String
+    availability: {
+      type: String,
     },
-    rate:{
-        type:String
+    rate: {
+      type: String,
     },
-    location:{
-        type:String
+    location: {
+      type: String,
     },
-    equipment:{
-        type:String
+    equipment: {
+      type: String,
     },
-    reviews:{
-        type:String
+    reviews: {
+      type: String,
     },
-    rating:{
-        type:String
+    rating: {
+      type: String,
     },
-    djBandImageUrl:[
-        {
-            type:String,
-            default: ""
-        }
+    images: [
+      {
+        type: String,
+      },
     ],
-    contact_information:{
-        type:String
+    contact_information: {
+      type: String,
     },
     event_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Megma-Event"
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Megma-Event",
     },
-},{timestamps:true});
-
-module.exports= mongoose.model("Dj-Band",DjBandSchema);
+  },
+  { timestamps: true }
+);
+DjBandSchema.pre('save', function(next) {
+    if (this.images.length === 0) {
+      this.images.push("https://onetouchmoments.co.in/wp-content/uploads/2024/05/parade-e1714669744336.png");
+    }
+    next();
+  });
+  
+module.exports = mongoose.model("Dj-Band", DjBandSchema);
