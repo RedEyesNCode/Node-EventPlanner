@@ -26,6 +26,9 @@ const transactionRoutes = require("./routes/transactionRoutes");
 const panditRoutes = require("./routes/panditRoutes");
 const cateringRoutes = require("./routes/cateringRoutes");
 const weddingDressRoutes = require("./routes/weddingDressRoutes");
+const dholRoutes = require("./routes/dholRoutes");
+const bandRoutes = require("./routes/bandRoutes");
+const entertainmentRoutes = require("./routes/entertainmentRoutes");
 
 var app = express();
 
@@ -62,6 +65,9 @@ app.use("/megma", transactionRoutes);
 app.use("/megma", panditRoutes);
 app.use("/megma", cateringRoutes);
 app.use("/megma", weddingDressRoutes);
+app.use("/megma", dholRoutes);
+app.use("/megma", bandRoutes);
+app.use("/megma", entertainmentRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

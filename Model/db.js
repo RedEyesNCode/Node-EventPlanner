@@ -67,7 +67,23 @@ const staticData = {
       categories_name: "CATERING",
       description: "This covers events for CATERING",
     },
-  ]
+  ],
+  Dhol :[
+    {
+      categories_name: "DHOL",
+      description: "This covers events for Dhole",
+    },
+  ],
+  Band :[
+    {
+      categories_name: "BAND",
+      description: "This covers events for Band",
+    },
+  ],
+  ENTERTAINMENT :[{
+    categories_name: "ENTERTAINMENT",
+    description: "This covers events for Activity",
+  }]
 };
 const staticDataForLoaction = {
   Bhopal: [
