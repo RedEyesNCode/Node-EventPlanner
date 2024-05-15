@@ -26,7 +26,7 @@ router.post("/updateevent", UpdateEvent);
 
 router.get("/getallevents", Allevent);
 
-router.get("/get-event-by-id", getEventById);//done
+router.post("/get-event-by-id", getEventById);//done
 
 router.post("/get-event-by-category",getEventByCategoryId)
 
