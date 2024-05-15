@@ -272,3 +272,26 @@ exports.getUserEventsByName = async (req, res) => {
   }
 };
 
+
+exports.IsUserPaid = async (req,res) =>{
+  try {
+    const User =await userSchema.findById(req.body.userId);
+    if(User.isPaid){
+      res.status(200).json({
+        status: "Success",
+        code: 200,
+        message: "User is Paid",
+        isPaid : true
+      });
+    }
+    else{
+      res.status(200).json({
+        status: "Failed",
+        code: 400,
+        message: "User is not Paid",
+        isPaid : false
+      });
+    }
+  } catch (error) {
+  res.status(200).json({status :"Failed" , code : 500 , message : error.message})
+  }}

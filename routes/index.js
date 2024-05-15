@@ -1,5 +1,5 @@
 var express = require('express');
-const { Signup, login, DeleteUser,getAllUser,logout ,getAllUserEvents,getAllEventsByCategory,getUserEventsByName} = require('../controllers/userController');
+const { Signup, login, DeleteUser,getAllUser,logout ,getAllUserEvents,getAllEventsByCategory,getUserEventsByName,IsUserPaid} = require('../controllers/userController');
 var router = express.Router();
 
 /* GET home page. */
@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-// Register user 
+
 
 //   Post /Signup
 router.post("/signup",Signup);    
@@ -27,5 +27,7 @@ router.post("/get-user-events",getAllUserEvents)
 router.post("/get-user-events-by-category",getAllEventsByCategory)
 
 router.post("/get-user-events-by-name",getUserEventsByName)
+
+router.post("/is-user-paid",IsUserPaid)
 
 module.exports = router;

@@ -4,6 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const cors = require("cors"); // Import the cors middleware
+require('dotenv').config();
 
 // Requiring Routes
 
@@ -29,6 +30,7 @@ const weddingDressRoutes = require("./routes/weddingDressRoutes");
 const dholRoutes = require("./routes/dholRoutes");
 const bandRoutes = require("./routes/bandRoutes");
 const entertainmentRoutes = require("./routes/entertainmentRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 
 var app = express();
 
@@ -68,6 +70,7 @@ app.use("/megma", weddingDressRoutes);
 app.use("/megma", dholRoutes);
 app.use("/megma", bandRoutes);
 app.use("/megma", entertainmentRoutes);
+app.use("/megma", paymentRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

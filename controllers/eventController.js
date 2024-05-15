@@ -2,20 +2,14 @@ const eventSchema = require("../Model/eventSchema");
 const userSchema = require("../Model/userSchema");
 const CategoriesSchema = require("../Model/categoriesSchema");
 
+
 exports.CreateEvent = async (req, res) => {
   try {
     const newEvent = new eventSchema(req.body); // New event
     const categoryId = req.body.category_id;
     const userId = req.body.userId;
-    console.log("Category ID:", categoryId);
-    console.log("User ID:", userId);
-
     const categorie = await CategoriesSchema.findById(categoryId); // Finding category
     const user = await userSchema.findById(userId); // Finding user
-    console.log("Category:", categorie);
-    console.log("User:", user);
-
-    // Handling if category or user is not found
     if (!categorie) {
       return res.status(200).json({
         status: "Failed",
@@ -23,13 +17,29 @@ exports.CreateEvent = async (req, res) => {
         message: "Category not found",
       });
     }
-
     if (!user) {
       return res.status(200).json({
         status: "Failed",
         code: 404,
         message: "User not found",
       });
+    }
+    if (user.subscriptions.length > 0) {
+      const lastSubscriptionDate = user.subscriptions[user.subscriptions.length - 1].date;
+      const currentDate = Date.now();
+      const differenceInDays = Math.floor((currentDate - lastSubscriptionDate ) / (1000 * 60 * 60 * 24));
+      console.log(lastSubscriptionDate,currentDate,differenceInDays)
+      if (differenceInDays > 5) {
+        // Subscription expired, update isPaid to false
+        user.isPaid = false;
+        await user.save();
+
+        return res.status(200).json({
+          status: "Failed",
+          code: 401,
+          message: "Your Subscription is Expired"
+        });
+      }
     }
 
     user.events.push(newEvent._id); // Pushing event id in user schema
