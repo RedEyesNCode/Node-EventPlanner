@@ -31,6 +31,7 @@ const dholRoutes = require("./routes/dholRoutes");
 const bandRoutes = require("./routes/bandRoutes");
 const entertainmentRoutes = require("./routes/entertainmentRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const hotelRoutes = require("./routes/hotelRoutes");
 
 var app = express();
 
@@ -71,6 +72,7 @@ app.use("/megma", dholRoutes);
 app.use("/megma", bandRoutes);
 app.use("/megma", entertainmentRoutes);
 app.use("/megma", paymentRoutes);
+app.use("/megma", hotelRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
