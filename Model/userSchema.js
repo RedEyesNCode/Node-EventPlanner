@@ -22,11 +22,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    subscriptions: [
-      {
-       
-      },
-    ],
+    subscriptions: [{}],
     events: [{ type: mongoose.Schema.Types.ObjectId, ref: "Megma-Event" }],
   },
   { timestamps: true }
