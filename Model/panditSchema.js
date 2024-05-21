@@ -5,6 +5,10 @@ const panditSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  pandit_subcategory: {
+    type: String,
+    default: "",
+  },
   address: {
     type: String,
     default: "",

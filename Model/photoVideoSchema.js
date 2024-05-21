@@ -5,6 +5,10 @@ const photoVideoSchema = new mongoose.Schema({
         type:String,
         default:""
     },
+    photovideo_subcategory:{
+        type:String,
+        default:""
+    },
     client_name :{
         type:String,
         default:""

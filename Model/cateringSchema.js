@@ -9,6 +9,10 @@ const cateringSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
+    catering_subcategory: {
+        type: String,
+        default: ""
+    },
     address: {
         type: String,
         default: ""

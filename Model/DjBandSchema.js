@@ -6,6 +6,9 @@ const DjBandSchema = new mongoose.Schema(
     dj_band_name: {
       type: String,
     },
+    djband_subcategory: {
+      type: String,
+    },
     members: {
       type: String,
     },

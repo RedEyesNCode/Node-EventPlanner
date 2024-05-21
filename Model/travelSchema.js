@@ -5,6 +5,10 @@ const travelSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  travel_subcategory: {
+    type: String,
+    default: "",
+  },
   client_name: {
     type: String,
     default: "",
