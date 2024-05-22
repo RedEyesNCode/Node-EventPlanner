@@ -5,6 +5,10 @@ const weddingDressSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  wedding_dress_subcategory: {
+    type: String,
+    default: "",
+  },
   designer: {
     type: String,
     default: "",

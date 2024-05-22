@@ -5,6 +5,10 @@ const tentHouseSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  tenthouse_subcategory: {
+    type: String,
+    default: "",
+  },
   String: {
     type: String,
     default: '',

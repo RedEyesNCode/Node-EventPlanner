@@ -5,6 +5,10 @@ const varmalaSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  varmala_subcategory: {
+    type: String,
+    default: "",
+  },
   date: {
     type: String,
     default: "",

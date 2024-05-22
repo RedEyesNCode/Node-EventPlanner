@@ -8,6 +8,10 @@ const entertainmentSchema = new mongoose.Schema({
   EventName: {
     type: String,
   },
+  entertainment_subcategory: {
+    type: String,
+    default : ""
+  },
   EventDescription: {
     type: String,
   },

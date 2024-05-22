@@ -5,6 +5,10 @@ const makeupSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  makeup_subcategory: {
+    type: String,
+    default: "",
+  },
   first_name: {
     type: String,
     default: "",

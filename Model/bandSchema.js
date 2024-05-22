@@ -8,6 +8,9 @@ const bandSchema = new mongoose.Schema({
   BandName: {
     type: String,
   },
+  band_subcategory: {
+    type: String,
+  },
   Genre: {
     type: String,
   },

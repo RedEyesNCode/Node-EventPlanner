@@ -10,6 +10,9 @@ const venueSchema = new mongoose.Schema(
     venue_address: {
       type: String,
     },
+    venue_subcategory : {
+      type : String
+    },
     venue_capacity: {
       type: String,
     },

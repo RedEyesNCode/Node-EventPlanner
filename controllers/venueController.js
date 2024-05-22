@@ -8,6 +8,7 @@ exports.Createvenue = async (req, res) => {
     const reqJson = ({
       venue_name,
       venue_address,
+      venue_subcategory,
       venue_capacity,
       venue_contact_person,
       contact_email_phone,

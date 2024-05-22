@@ -8,6 +8,10 @@ const dholSchema = new mongoose.Schema({
   GroupName: {
     type: String,
   },
+  dhol_subcategory: {
+    type: String,
+    default : ""
+  },
   ContactPerson: {
     type: String,
   },

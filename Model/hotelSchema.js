@@ -8,6 +8,9 @@ const hotelSchema = new mongoose.Schema({
   hotel_address: {
     type: String,
   },
+  hotel_subcategory: {
+    type: String,
+  },
   hotel_capacity: {
     type: String,
   },

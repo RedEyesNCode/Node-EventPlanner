@@ -6,6 +6,10 @@ const decoationSchema= new mongoose.Schema({
         type:String,
         default:""
     },
+    decor_subcategory:{
+        type:String,
+        default:""
+    },
     members:{
         type:String,
         default:""

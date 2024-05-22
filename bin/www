@@ -6,7 +6,7 @@
 
 var app = require("../app");
 var debug = require("debug")("project1:server");
-var https = require("https"); // Change 'http' to 'https'
+var http = require("http"); // Change 'http' to 'https'
 var fs = require("fs");
 
 /**
@@ -27,7 +27,7 @@ var options = {
 /**
  * Create HTTPS server.
  */
-var server = https.createServer(options, app); // Change 'http.createServer' to 'https.createServer'
+var server = http.createServer(options, app); // Change 'http.createServer' to 'https.createServer'
 
 /**
  * Listen on provided port, on all network interfaces.
