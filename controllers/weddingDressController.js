@@ -1,3 +1,4 @@
+const eventSchema = require("../Model/eventSchema");
 const weddingDressSchema = require("../Model/weddingDress");
 
 exports.createWeddingDress = async (req, res) => {
@@ -70,6 +71,9 @@ exports.uploadWeddingDressImage = async (req, res) => {
         .json({ status: "Failed",code: 400 ,message: "Weddingn Dress not found" });
       return;
     }
+    const Event = await eventSchema.findById(weddingDress.event_id);
+    Event.eventImageUrl.push(req.file.location);
+    await Event.save();
     weddingDress.images.push(req.file.location);
     if (
       weddingDress.images.length > 0 &&

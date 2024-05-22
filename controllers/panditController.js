@@ -1,4 +1,5 @@
 const panditSchema = require("../Model/panditSchema");
+const eventSchema = require("../Model/eventSchema");
 
 exports.createPandit = async (req, res) => {
   try {
@@ -78,7 +79,12 @@ exports.uploadPanditImage = async (req, res) => {
       res.status(200).json({ status: "Failed",code : 404, message: "Pandit not found" });
       return;
     }
+    const Event = await eventSchema.findById(pandit.event_id);
+    Event.eventImageUrl.push(req.file.location);
+    await Event.save();
     pandit.images.push(req.file.location);
+    
+    // console.log(pandit);
     if (
       pandit.images.length > 0 &&
       pandit.images[0] ===

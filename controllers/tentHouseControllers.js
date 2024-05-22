@@ -1,3 +1,4 @@
+const eventSchema = require("../Model/eventSchema");
 const tentHouseSchema = require("../Model/tentHouseSchema");//photo video #//tent house# // decoration-null# // pandit# // wedding dress#$ //Cater(create nai chali)
 
 exports.createTentHouse = async (req, res) => {
@@ -108,6 +109,9 @@ exports.uploadTentImage =  async (req, res) => {
       res.status(200).json({ status: "Failed", error: "Tent House not found" });
       return;
     }
+    const Event = await eventSchema.findById(tentHouse.event_id);
+    Event.eventImageUrl.push(req.file.location);
+    await Event.save();
     tentHouse.images.push(req.file.location);
     if (
       tentHouse.images.length > 0 &&

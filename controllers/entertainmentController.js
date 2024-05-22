@@ -1,4 +1,5 @@
 const entertainmentSchema = require("../Model/entertainmentSchema");
+const eventSchema = require("../Model/eventSchema");
 
 exports.createEntertainment = async (req, res) => {
     try {
@@ -87,6 +88,9 @@ exports.uploadgEntertainmentImage =  async (req, res) => {
         res.status(200).json({ status: "Failed", error: "Entertainment not found" });
         return;
       }
+      const Event = await eventSchema.findById(Entertainment.event_id);
+    Event.eventImageUrl.push(req.file.location);
+    await Event.save();
       Entertainment.images.push(req.file.location);
       if (
         Entertainment.images.length > 0 &&

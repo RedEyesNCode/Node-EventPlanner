@@ -1,4 +1,5 @@
 const dholSchema = require("../Model/dholSchema");
+const eventSchema = require("../Model/eventSchema");
 
 exports.createDhol = async (req, res) => {
     try {
@@ -87,6 +88,9 @@ exports.uploadgDholImage =  async (req, res) => {
         res.status(200).json({ status: "Failed", error: "Dhol not found" });
         return;
       }
+      const Event = await eventSchema.findById(Dhol.event_id);
+    Event.eventImageUrl.push(req.file.location);
+    await Event.save();
       Dhol.images.push(req.file.location);
       if (
         Dhol.images.length > 0 &&

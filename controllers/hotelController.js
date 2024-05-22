@@ -1,3 +1,4 @@
+const eventSchema = require("../Model/eventSchema");
 const hotelSchema = require("../Model/hotelSchema");
 
 exports.createhotel = async (req, res) => {
@@ -62,8 +63,11 @@ exports.uploadgHotelImage =  async (req, res) => {
       const Hotel = await hotelSchema.findById(req.body.HotelId);
       if (!Hotel) {
         res.status(200).json({ status: "Failed", error: "Hotel not found" });
-        return;
+        return; 
       }
+      const Event = await eventSchema.findById(Hotel.event_id);
+    Event.eventImageUrl.push(req.file.location);
+    await Event.save();
       Hotel.images.push(req.file.location);
       if (
         Hotel.images.length > 0 &&

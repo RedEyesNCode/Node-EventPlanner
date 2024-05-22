@@ -1,3 +1,4 @@
+const eventSchema = require("../Model/eventSchema");
 const photoVideoSchema = require("../Model/photoVideoSchema");
 
 exports.createPhotoVideo = async (req, res) => {
@@ -89,6 +90,9 @@ exports.createPhotoVideo = async (req, res) => {
         res.status(200).json({ status: "Failed", error: "Photo-video not found" });
         return;
       }
+      const Event = await eventSchema.findById(photoVideo.event_id);
+    Event.eventImageUrl.push(req.file.location);
+    await Event.save();
       photoVideo.images.push(req.file.location);
       if (
         photoVideo.images.length > 0 &&
