@@ -6,32 +6,76 @@
 
 var app = require("../app");
 var debug = require("debug")("project1:server");
-var http = require("http"); // Change 'http' to 'https'
+var https = require("https"); // Change 'http' to 'https'
 var fs = require("fs");
+const crypto = require("crypto");
 
-/**
- * Get port from environment and store in Express.
- */
+const certificateString = `-----BEGIN CERTIFICATE-----
+MIIEDzCCAvegAwIBAgIEUvwppzANBgkqhkiG9w0BAQsFADAXMRUwEwYDVQQDDAxn
+c2ZpbmFuY2UuaW4wHhcNMjQwNDI1MTIxOTUzWhcNMjUwNDI1MTIxOTUzWjAXMRUw
+EwYDVQQDDAxnc2ZpbmFuY2UuaW4wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK
+AoIBAQC5pcf+phvz1ZRQxeL9kLWFAzdReqzCDUvwGUSLiZqnLXLB2FykceVjh3t4
+mFqXZAkZxxXXk/YUsGUrp5JmVt0iPEnYikkiCAsImxh0tVsGDA01fhwrSTxu7MG9
+MeG1c8c4DDk34xH8RL5NyG7rCMNpe0ozSfnnR8WqtEaW2sam1g9J1OmFIeO7ddop
+0ByWslrubzV5en3g2rsOXzBidqO2xtCMV5Oa6u2/yZA5eGUliRGn+2W1Bml2VJ6i
+hoRl/1dCjMV1h0ashyvk3UsQrrWgIdS5Up8/yf9Fvg7NOMmu5D0qBDUXwWyCtT8Q
+kbnU6xWG2zCdbtpIw+wsI2LE3XgpAgMBAAGjggFhMIIBXTAdBgNVHQ4EFgQU46o+
+8cJGZJSfPgIWx9UCybXe8tEwCQYDVR0TBAIwADBCBgNVHSMEOzA5gBTjqj7xwkZk
+lJ8+AhbH1QLJtd7y0aEbpBkwFzEVMBMGA1UEAwwMZ3NmaW5hbmNlLmluggRS/Cmn
+MB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjCBzQYDVR0RBIHFMIHCggxn
+c2ZpbmFuY2UuaW6CEW1haWwuZ3NmaW5hbmNlLmlughB3d3cuZ3NmaW5hbmNlLmlu
+ghNjcGFuZWwuZ3NmaW5hbmNlLmlughR3ZWJtYWlsLmdzZmluYW5jZS5pboIUd2Vi
+ZGlzay5nc2ZpbmFuY2UuaW6CF2NwY29udGFjdHMuZ3NmaW5hbmNlLmlughhjcGNh
+bGVuZGFycy5nc2ZpbmFuY2UuaW6CGWF1dG9kaXNjb3Zlci5nc2ZpbmFuY2UuaW4w
+DQYJKoZIhvcNAQELBQADggEBAKZ5RkKTtGH0X6sHrd1N+LLQl13fNBKM06LIemEX
+JEYX9V9yClxDKJ5kB66Uacdzjpd0h1/K1Da+oZZH1CDN0wayqyDRkdBccGXmmuc1
+xIsiO8pAK72jWCKLx20/j+EsT7S7og0c1k3AQb+qI2CAVdK1deMONYsM4V81ZQ3J
+T1iCbHi0DyXOSsl0niAARzt6feVM7qFHkXtssl9zJsZtNPVVso63UHpDFtzMzZ0P
+7t9BxawR2DTkmBLNGz8YvjS1OwPUPJFFO3E4a/WmawfE0nzAT6p5Yzp8n7qD1QWO
+gWH3v3HEgTCgF/cmgcaaotIh630yoZktwaWik40/gJKjbQo=
+-----END CERTIFICATE-----`;
 
-var port = normalizePort(process.env.PORT || "4000");
+const privateKeyString = `-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEAuaXH/qYb89WUUMXi/ZC1hQM3UXqswg1L8BlEi4mapy1ywdhc
+pHHlY4d7eJhal2QJGccV15P2FLBlK6eSZlbdIjxJ2IpJIggLCJsYdLVbBgwNNX4c
+K0k8buzBvTHhtXPHOAw5N+MR/ES+Tchu6wjDaXtKM0n550fFqrRGltrGptYPSdTp
+hSHju3XaKdAclrJa7m81eXp94Nq7Dl8wYnajtsbQjFeTmurtv8mQOXhlJYkRp/tl
+tQZpdlSeooaEZf9XQozFdYdGrIcr5N1LEK61oCHUuVKfP8n/Rb4OzTjJruQ9KgQ1
+F8FsgrU/EJG51OsVhtswnW7aSMPsLCNixN14KQIDAQABAoIBAGUy3rOMvx4LJh9l
+z9fjY1/Pof8TfUsGzodibsAV0a0iFDVhCRdHUwEPYJobiv6NtHxNzzVF3dXnVi8W
+2LJa1Y6NCMA2makoc0NMsGcmWSkRtr2bMiXSdVQOUYodv+kW5NlDqIkziaFXo9lo
+0jXjAArm/0q4H7cYo8LrJLOlLLbSebOiWxRMji2cxNCuDYAlpymCFfXH2sHH9mU4
+XigqpkUQVijnaq6uYDtg1cc3S82DrG6Fen32ZFMOMd/lG7DLnBfepqKZsvovjM+r
+omu1Tl5Wq8Hvm3vak6hFrZFEuulBcqjVnTykVG1ec3wo8kabRkhK5a2X8Bh3/NfF
+puUWAFECgYEA2m9Cfy7DkpU+wJSFP98vNMkOF491dQy6Ylz9+UlvmjUXHFZ3kvkL
+rVdqrdO6slnPWWgEhbzEW6P9Z9J/7uLmKcajLyLixaDdmWI+UqHObRRH2FB4zblT
+QtUnrMN0Vk5LIFWGwm+LLmt9Ut3z7qdnFkHghF64hTztfIpU1BXoRh0CgYEA2ZMM
+logaH5MhHoRpH0ztJOBigPCilDp/7F2MVFZ4CETZ4WsG86somhNj7ZGRGu5pdJao
+TvOHhlzEUI8RQcejNtirRsmJNl79g1pWqpaIrFN953PIiAsWxHH0JjX6gjJIWqXW
+oFoUHHEobIih1QM2LxjxmeAY25MzMEfOsiYrbH0CgYAAmZWhK8u1t1s4xC+pgT9r
+8bFsNySncaWBZ6f660y3K7YoicRCTxTNIRRV7eLxYnXDVRnOFDql1cl4Y4eebFkd
+fEIuevYMfOie5zosl+0tN4UK/w2V4xBrepJlUxQauJRUPmfkWNIVCo6Jj7p/yU3r
+LbskIe53zzcHxIl/G6BLsQKBgAVihE89cxgQ9iLhOBDUQJJHE2kJi5yLjhr1fcGg
+mjvqKFJR6cwiElEt5a09iw/VkrqV9/hsQpBqv1kXEWBFZp624hZQaprz4uZbWAXE
+0AEj19vgm7fyPlACWf6QG3EZeXz02ckCMbk6e7uj7g1tlOu5fFFIoJTeoceyH0V9
+eFmpAoGBALbeLzS8LAIVZxLCFBkwmbhwjarciwnExHOlPz7pkR4DA2lPG839mYjU
+qyTTEa0LaH2mUpWxGmsZkXC0u2Pbprmp9GJ+Bb/ZAY4uGM5PHywrYt4tEzuQeIUS
+neET489YgKtm4goZv4KG/fUiBZ1ErlsRig2Zjq+qnEwJXUokbU8Y
+-----END RSA PRIVATE KEY-----`;
+
+// var port = normalizePort(process.env.PORT || "4000");
+const port = normalizePort(process.env.PORT || "4000");
 app.set("port", port);
 
-/**
- * Load SSL certificate and key.
- */
-var options = {
-  key: fs.readFileSync("certificates/gsfinance.key"), // Update with path to your private key
-  cert: fs.readFileSync("certificates/gsfinance.cert"), // Update with path to your certificate
+const privateKeyBuffer = Buffer.from(privateKeyString);
+const certificateBuffer = Buffer.from(certificateString);
+
+const options = {
+  key: privateKeyBuffer,
+  cert: certificateBuffer,
 };
 
-/**
- * Create HTTPS server.
- */
-var server = http.createServer(options, app); // Change 'http.createServer' to 'https.createServer'
-
-/**
- * Listen on provided port, on all network interfaces.
- */
+var server = https.createServer(options, app);
 
 server.listen(port);
 server.on("error", onError);
