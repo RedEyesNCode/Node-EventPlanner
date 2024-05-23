@@ -1,3 +1,4 @@
+const eventSchema = require("../Model/eventSchema");
 const venueSchema = require("../Model/venueSchema");
 
 //Create Venue
@@ -218,6 +219,9 @@ exports.uploadVenueImage = async (req, res) => {
       res.status(200).json({ status: "Failed", error: "venue not found" });
       return;
     }
+    const Event = await eventSchema.findById(venue.event_id);
+    Event.eventImageUrl.push(req.file.location);
+    await Event.save();
     venue.images.push(req.file.location);
     if (
       venue.images.length > 0 &&
