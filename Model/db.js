@@ -10,7 +10,7 @@ const staticData = {
   ],
   djband: [
     {
-      categories_name: "DJ AND BAND",
+      categories_name: "DJ AND BAND", 
       description: "This covers events for DJ AND BAND",
     },
   ],
