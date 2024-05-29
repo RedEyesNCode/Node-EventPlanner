@@ -1,4 +1,117 @@
 const userSchema = require("../Model/userSchema");
+const nodemailer = require("nodemailer");
+const crypto = require('crypto');
+// app password gmail : cjww vocd yqvj jqbf
+// to generate go to node mailer site and generate app specific password.
+
+
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: 'vancher571@gmail.com',
+    pass: 'cjww vocd yqvj jqbf',
+  },
+});
+function makeid(length) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
+  }
+  return result;
+}
+exports.resetPassword = async (req,res) => {
+  const {newPassword, userId} = req.body;
+
+
+  try{
+    const user = await userSchema.findById(userId);
+
+    if (!user) {
+      return res.status(200).json({ status : 'fail',code : 400, message: "No user found with that userId." });
+    }else{
+      user.password = newPassword;
+      await user.save();
+      return res.status(200).json({status : 'success',code : 200, message : 'Password Reset Successfully !'});
+    }
+  
+  }catch(error){
+    console.log(error);
+    res.status(200).json({ message: "Server error" });
+
+  }
+  
+
+}
+
+exports.forgotPassword = async (req,res) => {
+  
+
+  const { email } = req.body;
+  console.log(email);
+  try {
+    const user = await userSchema.findOne({ email });
+    if (!user) {
+      return res.status(200).json({ message: "No user found with that email." });
+    }
+
+    const resetToken = crypto.randomBytes(20).toString("hex");
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    await user.save();
+
+    const resetURL = makeid(9);
+    user.password = resetURL;
+    await user.save();
+
+
+    const mailOptions = {
+      to: user.email,
+      from: "vancher571@gmail.com", // Consider using a more professional "from" email
+      subject: "OTM - Password Reset",
+      html: `
+      <!DOCTYPE html>
+      <html>
+      <head>
+          <style>
+              /* Basic styling - customize as needed */
+              body { font-family: sans-serif; }
+              .container { width: 600px; margin: 0 auto; padding: 20px; }
+              .button { background-color: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; }
+          </style>
+      </head>
+      <body>
+          <div class="container">
+              <h1>New Password for Vendor Account </h1>
+              <p>Hello ${user.name},</p>
+              <p>You (or someone else) has requested to reset the password for your OTM account.</p>
+              <p>Your New password is below Use it to login to your vendor app:</p>
+              <h1 class="label">${resetURL}</h1>
+              <p>This link will expire in 24 hours.</p>
+              <p>If you did not request this password reset, please ignore this email. Your password is changed to ${resetURL}.</p>
+          </div>
+      </body>
+      </html>
+      `,
+  };
+  
+
+    transporter.sendMail(mailOptions, (err, response) => {
+      if (err) {
+        return res.status(200).json({ message: "Error sending email",status : 'fail',code : 200 });
+      }
+      res.status(200).json({ message: "New Password has been sent to the mail "+user.email,status : 'success' ,code : 200 });
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(200).json({ message: "Server error" });
+  }
+
+}
+
 
 exports.Signup = async (req, res) => {
   try {

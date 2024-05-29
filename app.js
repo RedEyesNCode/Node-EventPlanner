@@ -32,6 +32,10 @@ const bandRoutes = require("./routes/bandRoutes");
 const entertainmentRoutes = require("./routes/entertainmentRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const hotelRoutes = require("./routes/hotelRoutes");
+const nodemailer = require("nodemailer");
+
+
+
 
 var app = express();
 

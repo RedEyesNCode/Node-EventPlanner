@@ -23,9 +23,13 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
     subscriptions: [{}],
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
     events: [{ type: mongoose.Schema.Types.ObjectId, ref: "Megma-Event" }],
   },
-  { timestamps: true }
+  { timestamps: true },
+  
+  
 );
 
 module.exports = mongoose.model("Users-Profile-Data", userSchema);
