@@ -21,28 +21,30 @@ exports.createhotel = async (req, res) => {
 exports.getAllHotel = async (req, res) => {
   try {
     const Allhotels = await hotelSchema.find();
-    if(Allhotels.length === 0){
-        res.status(200).json({
-            status: "Failed",
-            code: 404,
-            message: "No hotel found"
-          });
+
+    if (Allhotels.length === 0) {
+      return res.status(200).json({
+        status: "Failed",
+        code: 404,
+        message: "No hotel found"
+      }); // Exit the function here
     }
-    
-    res.status(200).json({
+
+    return res.status(200).json({ // Exit here if hotels are found
       status: "Success",
       code: 200,
       message: " Hotel fetched Succesfully",
       data: Allhotels,
     });
   } catch (error) {
-    res.status(200).json({
+    return res.status(500).json({ // Use a 500 status for server errors
       status: "Failed",
       Code: 500,
       message: error.message,
-    });
+    }); // Exit here as well
   }
 };
+
 
 
 
