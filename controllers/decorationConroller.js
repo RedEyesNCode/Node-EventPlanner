@@ -1,4 +1,5 @@
 const decorationSchema = require("../Model/decorationSchema");
+const eventSchema = require("../Model/eventSchema");
 
 exports.createDecoration = async (req, res) => {
   try {
@@ -91,6 +92,9 @@ exports.uploadDecorationImage =  async (req, res) => {
       res.status(200).json({ status: "Failed", code : 404,message: "Decoration not found" });
       return;
     }
+    const Event = await eventSchema.findById(decoration.event_id);
+    Event.eventImageUrl.push(req.file.location);
+    await Event.save();
     decoration.images.push(req.file.location);
     if (
       decoration.images.length > 0 &&

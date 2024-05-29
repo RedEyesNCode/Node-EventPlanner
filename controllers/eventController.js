@@ -1,6 +1,21 @@
 const eventSchema = require("../Model/eventSchema");
 const userSchema = require("../Model/userSchema");
 const CategoriesSchema = require("../Model/categoriesSchema");
+const decorationSchema = require("../Model/decorationSchema");
+const bandSchema = require("../Model/bandSchema");
+const cateringSchema = require("../Model/cateringSchema");
+const dholSchema = require("../Model/dholSchema");
+const DjBandSchema = require("../Model/DjBandSchema");
+const entertainmentSchema = require("../Model/entertainmentSchema");
+const hotelSchema = require("../Model/hotelSchema");
+const makeupSchema = require("../Model/makeupSchema");
+const panditSchema = require("../Model/panditSchema");
+const photoVideoSchema = require("../Model/photoVideoSchema");
+const tentHouseSchema = require("../Model/tentHouseSchema");
+const travelSchema = require("../Model/travelSchema");
+const varmalaSchema = require("../Model/varmalaSchema");
+const venueSchema = require("../Model/venueSchema");
+const weddingDressSchema = require("../Model/weddingDress");
 
 
 exports.CreateEvent = async (req, res) => {
@@ -29,7 +44,7 @@ exports.CreateEvent = async (req, res) => {
       const currentDate = Date.now();
       const differenceInDays = Math.floor((currentDate - lastSubscriptionDate ) / (1000 * 60 * 60 * 24));
       console.log(lastSubscriptionDate,currentDate,differenceInDays)
-      if (differenceInDays > 5) {
+      if (differenceInDays > 15) {
         // Subscription expired, update isPaid to false
         user.isPaid = false;
         await user.save();
@@ -245,6 +260,7 @@ exports.getEventById = async (req, res) => {
       .populate("eventDetail_id")
       .populate("booking_details")
       .exec();
+    
     if (!event) {
       return res.status(200).json({
         status: "Failed",
@@ -252,11 +268,68 @@ exports.getEventById = async (req, res) => {
         message: "Event not found",
       });
     }
+    let data;
+
+    if (event.category_id) {
+      switch (event.category_id.categories_name) {
+          case "DECORATION":
+              data = await decorationSchema.find({ event_id: event._id });
+              break;
+          case "DJ AND BAND":
+              data = await DjBandSchema.find({ event_id: event._id });
+              break;
+          case "MAKE-UP":
+              data = await makeupSchema.find({ event_id: event._id });
+              break;
+          case "PANDIT":
+              data = await panditSchema.find({ event_id: event._id });
+              break;
+          case "PHOTO-VIDEO":
+              data = await photoVideoSchema.find({ event_id: event._id });
+              break;
+          case "TENTHOUSE":
+              data = await tentHouseSchema.find({ event_id: event._id });
+              break;
+          case "TRAVEL":
+              data = await travelSchema.find({ event_id: event._id });
+              break;
+          case "VARMALA-ENTRY":
+              data = await varmalaSchema.find({ event_id: event._id });
+              break;
+          case "VENUE":
+              data = await venueSchema.find({ event_id: event._id });
+              break;
+          case "WEDDING DRESS":
+              data = await weddingDressSchema.find({ event_id: event._id });
+              break;
+          case "CATERING":
+              data = await cateringSchema.find({ event_id: event._id });
+              break;
+          case "DHOL":
+              data = await dholSchema.find({ event_id: event._id });
+              break;
+          case "BAND":
+              data = await bandSchema.find({ event_id: event._id });
+              break;
+          case "ENTERTAINMENT":
+              data = await entertainmentSchema.find({ event_id: event._id });
+              break;
+          case "HOTEL":
+              data = await hotelSchema.find({ event_id: event._id });
+              break;
+          default:
+              // Handle the case where the category is not recognized
+              data = event.category_id.categories_name;
+              break;
+      }
+  }
+    
     res.status(200).json({
-      status: "Success",
-      code: 200,
-      message: "Event retrieved successfully",
-      data: event,
+        status: "Success",
+        code: 200,
+        message: "Event retrieved successfully",
+        data: event,
+        eventCategoryData: data ? JSON.stringify(data) : "No category is found"
     });
   } catch (error) {
     res.status(200).json({

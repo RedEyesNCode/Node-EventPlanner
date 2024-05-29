@@ -1,4 +1,5 @@
 const cateringSchema = require("../Model/cateringSchema");
+const eventSchema = require("../Model/eventSchema");
 
 exports.createCatering = async (req, res) => {
     try {
@@ -87,6 +88,9 @@ exports.uploadgCateringImage =  async (req, res) => {
         res.status(200).json({ status: "Failed", error: "Catering not found" });
         return;
       }
+      const Event = await eventSchema.findById(catering.event_id);
+      Event.eventImageUrl.push(req.file.location);
+      await Event.save();
       catering.images.push(req.file.location);
       if (
         catering.images.length > 0 &&

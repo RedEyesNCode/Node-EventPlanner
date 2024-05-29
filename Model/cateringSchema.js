@@ -30,8 +30,8 @@ const cateringSchema = new mongoose.Schema({
     }],
     event_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Event"
-    }
+        ref: "Megma-Event",
+      },
 })
 cateringSchema.pre('save', function(next) {
     if (this.images.length === 0) {

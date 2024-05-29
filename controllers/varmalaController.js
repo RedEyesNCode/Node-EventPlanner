@@ -1,3 +1,4 @@
+const eventSchema = require("../Model/eventSchema");
 const varmalaSchema = require("../Model/varmalaSchema");
 
 exports.createVarmala = async (req, res) => {
@@ -90,6 +91,9 @@ exports.uploadVarmalaImage = async (req, res) => {
         .json({ status: "Failed", error: "Varmala Dress not found" });
       return;
     }
+    const Event = await eventSchema.findById(varmala.event_id);
+    Event.eventImageUrl.push(req.file.location);
+    await Event.save();
     varmala.images.push(req.file.location);
     if (
       varmala.images.length > 0 &&

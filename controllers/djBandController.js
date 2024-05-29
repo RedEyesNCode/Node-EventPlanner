@@ -2,33 +2,8 @@ const DjBandSchema = require("../Model/DjBandSchema");
 
 exports.CreateDjband = async (req, res) => {
   try {
-    // Reqjson come from req.body
-    const reqjson = ({
-      dj_band_name,
-      members,
-      genre,
-      description,
-      availability,
-      rate,
-      location,
-      equipment,
-      reviews,
-      rating,
-      contact_information,
-    } = req.body);
-
-    //  if no reqjson then Send Error
-    if (!reqjson || Object.keys(reqjson).length === 0) {
-      return res.status(200).json({
-        status: "Failed",
-        code: 400,
-        message: "No data received",
-      });
-    }
-    // Saveing json data to DJBand Schema
-    const newDj = new DjBandSchema(reqjson);
+    const newDj = new DjBandSchema(req.body);
     const saveDj = await newDj.save();
-    // Send the Dj band data Succesfully
     res.status(200).json({
       status: "Success",
       code: 200,
