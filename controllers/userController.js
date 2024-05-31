@@ -303,7 +303,15 @@ exports.getAllUser = async (req, res) => {
 
 exports.getAllUserEvents = async (req, res) => {
   try {
-    const user = await userSchema.findById(req.body.userId).populate("events").populate("category_id");
+    // const user = await userSchema.findById(req.body.userId).populate("events").populate("category_id");
+   
+    const user = await userSchema.findById(req.body.userId).populate({
+      path: "events",
+      populate: {
+          path: "category_id", // Path within the event schema
+          select: "categories_name" // Fields to select from the category schema
+      }
+  });
     if (!user) {
       return res.status(200).json({
         status: "Failed",
