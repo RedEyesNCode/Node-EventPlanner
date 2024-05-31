@@ -24,25 +24,50 @@ function makeid(length) {
   return result;
 }
 
-exports.getUserEventCount = async (req,res) => {
+exports.getUserEventCount = async (req, res) => {
+  const { userId } = req.body;
 
-  const {userId} = req.body;
-  try{
-    const user = await userSchema.findById(userId);
+  try {
+      const user = await userSchema.findById(userId).populate({
+          path: "events",
+          populate: {
+              path: "category_id",
+              select: "categories_name" 
+          }
+      });
 
-    if (!user) {
-      return res.status(200).json({ status : 'fail',code : 400, message: "No user found with that userId." });
-    }else{
-      // search for sepe=
-    }
+      if (!user) {
+          return res.status(200).json({ status: 'fail', code: 400, message: "No user found with that userId." });
+      }
 
-  }catch(error){
-    console.log(error);
-    res.status(200).json({ message: "Server error" });
+      // Calculate Event Counts by Category
+      const categoryCounts = {};
 
+      // Iterate over user's events
+      user.events.forEach(event => {
+          const categoryName = event.category_id.categories_name; 
+
+          // Check if the category name is already in the count object
+          if (categoryCounts[categoryName]) {
+              categoryCounts[categoryName]++; 
+          } else {
+              categoryCounts[categoryName] = 1; 
+          }
+      });
+      
+      // Include categories with 0 count if needed
+      for(const key in staticData){
+          if(!categoryCounts[key]){
+              categoryCounts[key] = 0;
+          }
+      }
+      res.status(200).json({ status: 'success', code: 200, data : categoryCounts });
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Server error" }); // Use 500 for server errors
   }
+};
 
-}
 
 
 exports.resetPassword = async (req,res) => {
