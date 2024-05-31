@@ -127,45 +127,8 @@ router.post("/complete-vendor-payment", async (req, res) => {
       to: updatedUser.email,
       from: "vancher571@gmail.com", // Consider using a more professional "from" email
       subject: "OTM - Vendor Subscription Confirmation",
-      html: `<!DOCTYPE html>
-      <html>
-      <head>
-          <meta charset="UTF-8">
-          <title>Payment Successful & Subscription Started</title>
-          <style>
-              /* Basic styling for all devices */
-              body { font-family: sans-serif; margin: 0; padding: 20px; }
-              .container { max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f5f5f5; }
-              h1 { color: #333; }
-              p { line-height: 1.6; }
-      
-              /* Mobile-specific styles */
-              @media (max-width: 480px) {
-                  .container { padding: 10px; }
-              }
-          </style>
-      </head>
-      <body>
-          <div class="container">
-              <h1>Payment Successful!</h1>
-              <p>Thank you for your payment. Your subscription has officially started.</p>
-      
-              <h2>Subscription Details:</h2>
-              <p>
-                  <b>Plan:</b> {{planName}}<br>
-                  <b>Next Billing Date:</b> {{nextBillingDate}} 
-              </p>
-      
-              <p>We hope you enjoy our service!</p>
-              <p>If you have any query, please don't hesitate to contact us.</p>
-      
-              <p>Sincerely,</p>
-              <p>One Touch Moments, Team</p>
-          </div>
-      </body>
-      </html>
-      `.replace('{{planName}}', 'Premium') // Example replacement
-      .replace('{{nextBillingDate}}', Date.now()) ,
+      html: fs.readFileSync('vendor_payment.html', 'utf-8')
+      ,
   };
   
 
