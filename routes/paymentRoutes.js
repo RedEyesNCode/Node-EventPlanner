@@ -124,7 +124,7 @@ router.post("/complete-vendor-payment", async (req, res) => {
       { new: true }
     );
     const mailOptions = {
-      to: user.email,
+      to: updatedUser.email,
       from: "vancher571@gmail.com", // Consider using a more professional "from" email
       subject: "OTM - Vendor Subscription Confirmation",
       html: `<!DOCTYPE html>
