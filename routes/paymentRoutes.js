@@ -77,6 +77,30 @@ const instance = new Razorpay({
 //     res.status(400).send("Payment verification failed");
 //   }
 // });
+const nodemailer = require("nodemailer");
+const crypto = require('crypto');
+// app password gmail : cjww vocd yqvj jqbf
+// to generate go to node mailer site and generate app specific password.
+
+
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: 'vancher571@gmail.com',
+    pass: 'cjww vocd yqvj jqbf',
+  },
+});
+function makeid(length) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
+  }
+  return result;
+}
 
 router.post("/complete-vendor-payment", async (req, res) => {
   try {
@@ -99,13 +123,67 @@ router.post("/complete-vendor-payment", async (req, res) => {
       },
       { new: true }
     );
+    const mailOptions = {
+      to: user.email,
+      from: "vancher571@gmail.com", // Consider using a more professional "from" email
+      subject: "OTM - Vendor Subscription Confirmation",
+      html: `<!DOCTYPE html>
+      <html>
+      <head>
+          <meta charset="UTF-8">
+          <title>Payment Successful & Subscription Started</title>
+          <style>
+              /* Basic styling for all devices */
+              body { font-family: sans-serif; margin: 0; padding: 20px; }
+              .container { max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f5f5f5; }
+              h1 { color: #333; }
+              p { line-height: 1.6; }
+      
+              /* Mobile-specific styles */
+              @media (max-width: 480px) {
+                  .container { padding: 10px; }
+              }
+          </style>
+      </head>
+      <body>
+          <div class="container">
+              <h1>Payment Successful!</h1>
+              <p>Thank you for your payment. Your subscription has officially started.</p>
+      
+              <h2>Subscription Details:</h2>
+              <p>
+                  <b>Plan:</b> {{planName}}<br>
+                  <b>Next Billing Date:</b> {{nextBillingDate}} 
+              </p>
+      
+              <p>We hope you enjoy our service!</p>
+              <p>If you have any questions, please don't hesitate to contact us.</p>
+      
+              <p>Sincerely,</p>
+              <p>The [Your Company Name] Team</p>
+          </div>
+      </body>
+      </html>
+      `.replace('{{planName}}', 'Premium') // Example replacement
+      .replace('{{nextBillingDate}}', Date.now()) ,
+  };
+  
 
-    res.status(200).json({
-      status: "Success",
-      code: 200,
-      message: "Payment successful",
-      user: updatedUser,
+    transporter.sendMail(mailOptions, (err, response) => {
+      if (err) {
+        return res.status(200).json({ message: "Error sending email",status : 'fail',code : 200 });
+      }else{
+        return res.status(200).json({
+          status: "Success",
+          code: 200,
+          message: "Payment successful",
+          user: updatedUser,
+        });
+      }
+      
     });
+
+    
   } catch (error) {
     console.error("Error completing vendor payment:", error);
     res.status(500).json({
