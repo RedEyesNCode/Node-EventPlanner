@@ -128,7 +128,7 @@ router.post("/complete-vendor-payment", async (req, res) => {
       to: updatedUser.email,
       from: "vancher571@gmail.com", // Consider using a more professional "from" email
       subject: "OTM - Vendor Subscription Confirmation",
-      html: fs.readFileSync('vendor_payment.html', 'utf-8')
+      html: fs.readFileSync('./vendor_payment.html', 'utf-8')
       ,
   };
   
