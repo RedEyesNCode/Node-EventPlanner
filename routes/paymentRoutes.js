@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Razorpay = require("razorpay");
 const userSchema = require("../Model/userSchema");
+const fs = require('fs'); // Import the file system module
 
 const instance = new Razorpay({
   key_id: process.env.PAYMENT_KEY_ID,
