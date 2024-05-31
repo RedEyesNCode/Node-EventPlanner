@@ -157,10 +157,10 @@ router.post("/complete-vendor-payment", async (req, res) => {
               </p>
       
               <p>We hope you enjoy our service!</p>
-              <p>If you have any questions, please don't hesitate to contact us.</p>
+              <p>If you have any query, please don't hesitate to contact us.</p>
       
               <p>Sincerely,</p>
-              <p>The [Your Company Name] Team</p>
+              <p>One Touch Moments, Team</p>
           </div>
       </body>
       </html>

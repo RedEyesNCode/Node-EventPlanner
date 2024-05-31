@@ -23,6 +23,28 @@ function makeid(length) {
   }
   return result;
 }
+
+exports.getUserEventCount = async (req,res) => {
+
+  const {userId} = req.body;
+  try{
+    const user = await userSchema.findById(userId);
+
+    if (!user) {
+      return res.status(200).json({ status : 'fail',code : 400, message: "No user found with that userId." });
+    }else{
+      // search for sepe=
+    }
+
+  }catch(error){
+    console.log(error);
+    res.status(200).json({ message: "Server error" });
+
+  }
+
+}
+
+
 exports.resetPassword = async (req,res) => {
   const {newPassword, userId} = req.body;
 
@@ -281,7 +303,7 @@ exports.getAllUser = async (req, res) => {
 
 exports.getAllUserEvents = async (req, res) => {
   try {
-    const user = await userSchema.findById(req.body.userId).populate("events");
+    const user = await userSchema.findById(req.body.userId).populate("events").populate("category_id");
     if (!user) {
       return res.status(200).json({
         status: "Failed",

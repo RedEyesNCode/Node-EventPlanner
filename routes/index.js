@@ -34,4 +34,6 @@ router.post("/get-user-events-by-name",getUserEventsByName)
 
 router.post("/is-user-paid",IsUserPaid)
 
+router.post("/get-user-event-count",getUserEventCount);
+
 module.exports = router;
