@@ -124,11 +124,13 @@ router.post("/complete-vendor-payment", async (req, res) => {
       },
       { new: true }
     );
+    const filePath = __dirname + '/vendor_payment.html';
+
     const mailOptions = {
       to: updatedUser.email,
       from: "vancher571@gmail.com", // Consider using a more professional "from" email
       subject: "OTM - Vendor Subscription Confirmation",
-      html: fs.readFileSync('./vendor_payment.html', 'utf-8')
+      html: fs.readFileSync(filePath, 'utf-8')
       ,
   };
   
