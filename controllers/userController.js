@@ -78,6 +78,12 @@ const staticData = {
       description: "This covers events for VENUE",
     },
   ],
+  hotel: [
+    {
+      categories_name: "HOTEL",
+      description: "This covers events for VENUE",
+    },
+  ],
   weddingDress: [
     {
       categories_name: "WEDDING DRESS",
@@ -120,9 +126,9 @@ exports.getUserEventCount = async (req, res) => {
             }
         });
 
-        if (!user) {
-            return res.status(200).json({ status: 'fail', code: 400, message: "No user found with that userId." });
-        }
+        // if (!user) {
+        //     return res.status(200).json({ status: 'fail', code: 400, message: "No user found with that userId." });
+        // }
 
         // Calculate Event Counts by Category
         const categoryCounts = {};
