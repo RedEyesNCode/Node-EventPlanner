@@ -157,7 +157,7 @@ router.post("/complete-vendor-payment", async (req, res) => {
     </head>
     <body>
         <div class="container">
-        <h1>Congratulations</h1>
+        <h1 style="color: #A51915;">Congratulations !!!</h1>
             <h2>Welcome to OTM one touch moments</h2>
             <p>Thank you for your payment. Your subscription has officially started.</p>
     
