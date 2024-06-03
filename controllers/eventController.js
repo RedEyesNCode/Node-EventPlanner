@@ -17,7 +17,6 @@ const varmalaSchema = require("../Model/varmalaSchema");
 const venueSchema = require("../Model/venueSchema");
 const weddingDressSchema = require("../Model/weddingDress");
 
-
 exports.CreateEvent = async (req, res) => {
   try {
     const newEvent = new eventSchema(req.body); // New event
@@ -40,10 +39,13 @@ exports.CreateEvent = async (req, res) => {
       });
     }
     if (user.subscriptions.length > 0) {
-      const lastSubscriptionDate = user.subscriptions[user.subscriptions.length - 1].date;
+      const lastSubscriptionDate =
+        user.subscriptions[user.subscriptions.length - 1].date;
       const currentDate = Date.now();
-      const differenceInDays = Math.floor((currentDate - lastSubscriptionDate ) / (1000 * 60 * 60 * 24));
-      console.log(lastSubscriptionDate,currentDate,differenceInDays)
+      const differenceInDays = Math.floor(
+        (currentDate - lastSubscriptionDate) / (1000 * 60 * 60 * 24)
+      );
+      console.log(lastSubscriptionDate, currentDate, differenceInDays);
       if (differenceInDays > 15) {
         // Subscription expired, update isPaid to false
         user.isPaid = false;
@@ -52,7 +54,7 @@ exports.CreateEvent = async (req, res) => {
         return res.status(200).json({
           status: "Failed",
           code: 401,
-          message: "Your Subscription is Expired"
+          message: "Your Subscription is Expired",
         });
       }
     }
@@ -260,7 +262,7 @@ exports.getEventById = async (req, res) => {
       .populate("eventDetail_id")
       .populate("booking_details")
       .exec();
-    
+
     if (!event) {
       return res.status(200).json({
         status: "Failed",
@@ -272,64 +274,64 @@ exports.getEventById = async (req, res) => {
 
     if (event.category_id) {
       switch (event.category_id.categories_name) {
-          case "DECORATION":
-              data = await decorationSchema.find({ event_id: event._id });
-              break;
-          case "DJ AND BAND":
-              data = await DjBandSchema.find({ event_id: event._id });
-              break;
-          case "MAKE-UP":
-              data = await makeupSchema.find({ event_id: event._id });
-              break;
-          case "PANDIT":
-              data = await panditSchema.find({ event_id: event._id });
-              break;
-          case "PHOTO-VIDEO":
-              data = await photoVideoSchema.find({ event_id: event._id });
-              break;
-          case "TENTHOUSE":
-              data = await tentHouseSchema.find({ event_id: event._id });
-              break;
-          case "TRAVEL":
-              data = await travelSchema.find({ event_id: event._id });
-              break;
-          case "VARMALA-ENTRY":
-              data = await varmalaSchema.find({ event_id: event._id });
-              break;
-          case "VENUE":
-              data = await venueSchema.find({ event_id: event._id });
-              break;
-          case "WEDDING DRESS":
-              data = await weddingDressSchema.find({ event_id: event._id });
-              break;
-          case "CATERING":
-              data = await cateringSchema.find({ event_id: event._id });
-              break;
-          case "DHOL":
-              data = await dholSchema.find({ event_id: event._id });
-              break;
-          case "BAND":
-              data = await bandSchema.find({ event_id: event._id });
-              break;
-          case "ENTERTAINMENT":
-              data = await entertainmentSchema.find({ event_id: event._id });
-              break;
-          case "HOTEL":
-              data = await hotelSchema.find({ event_id: event._id });
-              break;
-          default:
-              // Handle the case where the category is not recognized
-              data = event.category_id.categories_name;
-              break;
+        case "DECORATION":
+          data = await decorationSchema.find({ event_id: event._id });
+          break;
+        case "DJ AND BAND":
+          data = await DjBandSchema.find({ event_id: event._id });
+          break;
+        case "MAKE-UP":
+          data = await makeupSchema.find({ event_id: event._id });
+          break;
+        case "PANDIT":
+          data = await panditSchema.find({ event_id: event._id });
+          break;
+        case "PHOTO-VIDEO":
+          data = await photoVideoSchema.find({ event_id: event._id });
+          break;
+        case "TENTHOUSE":
+          data = await tentHouseSchema.find({ event_id: event._id });
+          break;
+        case "TRAVEL":
+          data = await travelSchema.find({ event_id: event._id });
+          break;
+        case "VARMALA-ENTRY":
+          data = await varmalaSchema.find({ event_id: event._id });
+          break;
+        case "VENUE":
+          data = await venueSchema.find({ event_id: event._id });
+          break;
+        case "WEDDING DRESS":
+          data = await weddingDressSchema.find({ event_id: event._id });
+          break;
+        case "CATERING":
+          data = await cateringSchema.find({ event_id: event._id });
+          break;
+        case "DHOL":
+          data = await dholSchema.find({ event_id: event._id });
+          break;
+        case "BAND":
+          data = await bandSchema.find({ event_id: event._id });
+          break;
+        case "ENTERTAINMENT":
+          data = await entertainmentSchema.find({ event_id: event._id });
+          break;
+        case "HOTEL":
+          data = await hotelSchema.find({ event_id: event._id });
+          break;
+        default:
+          // Handle the case where the category is not recognized
+          data = event.category_id.categories_name;
+          break;
       }
-  }
-    
+    }
+
     res.status(200).json({
-        status: "Success",
-        code: 200,
-        message: "Event retrieved successfully",
-        data: event,
-        eventCategoryData: data ? JSON.stringify(data) : "No category is found"
+      status: "Success",
+      code: 200,
+      message: "Event retrieved successfully",
+      data: event,
+      eventCategoryData: data ? JSON.stringify(data) : "No category is found",
     });
   } catch (error) {
     res.status(200).json({
@@ -337,5 +339,83 @@ exports.getEventById = async (req, res) => {
       code: 500,
       message: error.message,
     });
+  }
+};
+
+exports.updateCatDataByEventID = async (req, res) => {
+  try {
+    const event = await eventSchema.findById(req.body.eventId);
+
+    if (!event) {
+      return res.status(200).json({
+        status: "Failed",
+        code: 404,
+        message: "Event not found",
+      });
+    }
+    let data;
+  
+   
+      switch (req.body.category_name) {
+        case "DECORATION":
+          data = await decorationSchema.findOneAndUpdate({ event_id: event._id }, req.body, { new: true });
+          break;
+        case "DJ AND BAND":
+          data = await DjBandSchema.findOneAndUpdate({ event_id: event._id }, req.body, { new: true });
+          break;
+        case "MAKE-UP":
+          data = await makeupSchema.findOneAndUpdate({ event_id: event._id }, req.body, { new: true });
+          break;
+        case "PANDIT":
+          data = await panditSchema.findOneAndUpdate({ event_id: event._id }, req.body, { new: true });
+          break;
+        case "PHOTO-VIDEO":
+          data = await photoVideoSchema.findOneAndUpdate({ event_id: event._id }, req.body, { new: true });
+          break;
+        case "TENTHOUSE":
+          data = await tentHouseSchema.findOneAndUpdate({ event_id: event._id }, req.body, { new: true });
+          break;
+        case "TRAVEL":
+          data = await travelSchema.findOneAndUpdate({ event_id: event._id }, req.body, { new: true });
+          break;
+        case "VARMALA-ENTRY":
+          data = await varmalaSchema.findOneAndUpdate({ event_id: event._id }, req.body, { new: true });
+          break;
+        case "VENUE":
+          data = await venueSchema.findOneAndUpdate({ event_id: event._id }, req.body, { new: true });
+          break;
+        case "WEDDING DRESS":
+          data = await weddingDressSchema.findOneAndUpdate({ event_id: event._id }, req.body, { new: true });
+          break;
+        case "CATERING":
+          data = await cateringSchema.findOneAndUpdate({ event_id: event._id }, req.body, { new: true });
+          break;
+        case "DHOL":
+          data = await dholSchema.findOneAndUpdate({ event_id: event._id }, req.body, { new: true });
+          break;
+        case "BAND":
+          data = await bandSchema.findOneAndUpdate({ event_id: event._id }, req.body, { new: true });
+          break;
+        case "ENTERTAINMENT":
+          data = await entertainmentSchema.findOneAndUpdate({ event_id: event._id }, req.body, { new: true });
+          break;
+        case "HOTEL":
+          data = await hotelSchema.findOneAndUpdate({ event_id: event._id }, req.body, { new: true });
+          break;
+        default:
+          // Handle the case where the category is not recognized
+          data =null;
+          break;
+      }
+
+    res.status(200).json({
+      status: "Success",
+      code: 200,
+      message: "Event Updated successfully",
+      data: event,
+      eventCategoryData: data ? JSON.stringify(data) : "No category is found",
+    });
+  } catch (error) {
+    res.status(200).json({ Status: "Failed", code: 500, message: error });
   }
 };

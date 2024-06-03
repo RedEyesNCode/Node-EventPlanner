@@ -5,7 +5,8 @@ const {
   UpdateEvent,
   Allevent,
   getEventByCategoryId,
-  getEventById
+  getEventById,
+  updateCatDataByEventID
 
 } = require("../controllers/eventController");
 
@@ -29,6 +30,11 @@ router.get("/getallevents", Allevent);
 router.post("/get-event-by-id", getEventById);//done
 
 router.post("/get-event-by-category",getEventByCategoryId)
+
+
+router.post("/update-category-data",updateCatDataByEventID)
+
+
 
 //Image uploading section
 
