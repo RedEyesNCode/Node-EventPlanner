@@ -6,7 +6,7 @@
 
 var app = require("../app");
 var debug = require("debug")("project1:server");
-var https = require("https"); // Change 'http' to 'https'
+var http = require("http"); // Change 'http' to 'https'
 var fs = require("fs");
 const crypto = require("crypto");
 
@@ -114,7 +114,7 @@ const options = {
   ca: fullChain,
 };
 
-var server = https.createServer( options,app);
+var server = http.createServer(app);
 
 server.listen(port);
 server.on("error", onError);
